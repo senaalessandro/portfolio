@@ -1,34 +1,70 @@
 ---
-import { Icon } from 'astro-icon/components';
-
 const certifications = [
   {
-    title: "Security, Compliance and Identity Fundamentals",
-    code: "SC-900",
-    issuer: "Microsoft",
+    title: "Security, Compliance, and Identity Fundamentals (SC-900)",
+    vendor: "Microsoft",
     date: "07/2026",
-    icon: "logos:microsoft-icon"
+    verifyUrl: "https://learn.microsoft.com/it-it/users/senaalessandro/credentials/AC85492B6DEA0869",
+    badgeSrc: "/badges/sc-900.png",
+    bgIconLight: "/logos/azure.png",
+    bgIconDark: "/logos/azure.png",
+    logoLight: "/logos/microsoft.png",
+    logoDark: "/logos/microsoft.png"
   },
   {
-    title: "AWS Certified Cloud Practitioner",
-    code: "CLF-C02",
-    issuer: "Amazon Web Services",
-    date: "05/2026",
-    icon: "logos:aws"
+    title: "AWS Certified Cloud Practitioner (CLF-C02)",
+    vendor: "Amazon Web Services",
+    date: "05/2026 - 05/2029",
+    verifyUrl: "https://www.credly.com/badges/be4e8c32-7a0d-4b54-b329-42af81a9ff83/public_url",
+    badgeSrc: "/badges/clf-c02.png",
+    bgIconLight: "/logos/aws-dark.png",
+    bgIconDark: "/logos/aws-white.png",
+    logoLight: "/logos/aws-dark.png",
+    logoDark: "/logos/aws-white.png"
   },
   {
-    title: "Azure Fundamentals",
-    code: "AZ-900",
-    issuer: "Microsoft",
+    title: "Microsoft Azure Fundamentals (AZ-900)",
+    vendor: "Microsoft",
     date: "04/2026",
-    icon: "logos:microsoft-azure"
+    verifyUrl: "https://learn.microsoft.com/it-it/users/senaalessandro/credentials/b8dbc5a95c8801f7",
+    badgeSrc: "/badges/az-900.png",
+    bgIconLight: "/logos/azure.png",
+    bgIconDark: "/logos/azure.png",
+    logoLight: "/logos/microsoft.png",
+    logoDark: "/logos/microsoft.png"
+  },
+  {
+    title: "AWS Academy Graduate - Cloud Foundations - Training Badge",
+    vendor: "Amazon Web Services",
+    date: "04/2026",
+    verifyUrl: "https://www.credly.com/badges/0cfe4c8d-71a8-4a9b-aee9-94e39b8c5c44/public_url",
+    badgeSrc: "/badges/aws-academy.png",
+    bgIconLight: "/logos/aws-dark.png",
+    bgIconDark: "/logos/aws-white.png",
+    logoLight: "/logos/aws-dark.png",
+    logoDark: "/logos/aws-white.png"
+  },
+  {
+    title: "Microsoft Introduction to Datacenters - Course Graduate",
+    vendor: "Microsoft",
+    date: "03/2026",
+    verifyUrl: "https://www.credly.com/badges/d83af9ea-dc36-497a-ae24-d66ec411558c/public_url",
+    badgeSrc: "/badges/ms-datacenters.png",
+    bgIconLight: "/logos/microsoft.png",
+    bgIconDark: "/logos/microsoft.png",
+    logoLight: "/logos/microsoft.png",
+    logoDark: "/logos/microsoft.png"
   },
   {
     title: "IT Specialist - Python",
-    code: "Certiport",
-    issuer: "Pearson VUE",
+    vendor: "Certiport (Pearson VUE)",
     date: "03/2025",
-    icon: "logos:python"
+    verifyUrl: "https://www.credly.com/badges/19246cbc-2fc1-4ba1-8c4f-f1e92ca78deb/public_url",
+    badgeSrc: "/badges/python-specialist.png",
+    bgIconLight: "/logos/python.png",
+    bgIconDark: "/logos/python.png",
+    logoLight: "/logos/pearson-white.png",
+    logoDark: "/logos/pearson-dark.png"
   }
 ];
 ---
@@ -37,29 +73,46 @@ const certifications = [
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16">
       <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl transition-colors">Certificazioni</h2>
-      <p class="mt-4 text-lg text-slate-600 dark:text-slate-300 transition-colors">Le mie qualifiche professionali riconosciute dai principali vendor.</p>
+      <p class="mt-4 text-lg text-slate-600 dark:text-slate-300 transition-colors">Le mie qualifiche professionali e badge di specializzazione.</p>
     </div>
     
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {certifications.map(cert => (
-        <div class="group flex flex-col rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-6 hover:border-blue-300 dark:hover:border-slate-500 hover:shadow-lg transition-all duration-300 relative overflow-hidden">
-          <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity transform group-hover:scale-110 group-hover:-rotate-12">
-             <Icon name={cert.icon} class="w-24 h-24" />
+        <a 
+          href={cert.verifyUrl} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="group flex flex-col rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-8 hover:-translate-y-1 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-xl transition-all duration-300 relative overflow-hidden min-h-[320px]"
+        >
+          <!-- Sfondo animato -->
+          <div class="absolute top-0 right-0 p-4 opacity-[0.08] dark:opacity-5 group-hover:opacity-20 dark:group-hover:opacity-10 transition-all duration-500 transform group-hover:scale-110 group-hover:-rotate-12 pointer-events-none">
+             <img src={cert.bgIconLight} alt="" aria-hidden="true" class="w-32 h-32 object-contain dark:hidden" />
+             <img src={cert.bgIconDark} alt="" aria-hidden="true" class="w-32 h-32 object-contain hidden dark:block" />
           </div>
           
-          <div class="flex items-center gap-4 mb-4 relative z-10">
+          <!-- Top: Badge -->
+          <div class="mb-6 relative z-10 h-24 flex items-center justify-start">
+            <img src={cert.badgeSrc} alt={`Badge ${cert.title}`} class="w-24 h-24 object-contain drop-shadow-sm group-hover:drop-shadow-md transition-all duration-300" />
+          </div>
+          
+          <!-- Middle: Titolo -->
+          <div class="flex-grow relative z-10">
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white leading-tight mb-2 transition-colors">{cert.title}</h3>
+          </div>
+          
+          <!-- Bottom: Dettagli -->
+          <div class="mt-6 pt-5 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between relative z-10 transition-colors">
+            <div class="flex flex-col">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1 transition-colors">{cert.vendor}</span>
+              <span class="text-sm font-medium text-slate-600 dark:text-slate-300 transition-colors">{cert.date}</span>
+            </div>
+            
             <div class="flex-shrink-0 w-12 h-12 bg-slate-50 dark:bg-slate-700 rounded-lg flex items-center justify-center ring-1 ring-inset ring-slate-200 dark:ring-slate-600 transition-colors">
-              <Icon name={cert.icon} class="w-7 h-7" />
-            </div>
-            <div>
-              <div class="text-sm font-semibold text-blue-600 dark:text-blue-400 transition-colors">{cert.code}</div>
-              <div class="text-xs font-medium text-slate-500 dark:text-slate-400 transition-colors">{cert.date}</div>
+              <img src={cert.logoLight} alt={cert.vendor} class="w-7 h-7 object-contain dark:hidden" />
+              <img src={cert.logoDark} alt={cert.vendor} class="w-7 h-7 object-contain hidden dark:block" />
             </div>
           </div>
-          
-          <h3 class="text-lg font-bold text-slate-900 dark:text-white leading-tight mb-1 relative z-10 transition-colors">{cert.title}</h3>
-          <p class="text-sm text-slate-600 dark:text-slate-400 relative z-10 transition-colors">{cert.issuer}</p>
-        </div>
+        </a>
       ))}
     </div>
   </div>

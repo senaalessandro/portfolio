@@ -41,10 +41,11 @@ import { Icon } from 'astro-icon/components';
   const themeToggleBtn = document.getElementById('theme-toggle');
 
   // Change the icons inside the button based on previous settings
-  if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    themeToggleLightIcon?.classList.remove('hidden');
-  } else {
+  if (localStorage.getItem('theme') === 'light') {
     themeToggleDarkIcon?.classList.remove('hidden');
+  } else {
+    // Default is dark mode (shows the Sun icon to switch to light)
+    themeToggleLightIcon?.classList.remove('hidden');
   }
 
   themeToggleBtn?.addEventListener('click', function() {
