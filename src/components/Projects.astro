@@ -4,40 +4,69 @@ import { Icon } from 'astro-icon/components';
 
 const projects = [
   {
-    title: "Homelab & Backup",
+    title: "Proxmox VE & PBS",
     description: "Proxmox, Nginx Proxy Manager, Rustdesk, Immich, Jellyfin, Proxmox Backup Server su mini PC dedicato.",
     slug: "homelab-e-backup",
-    techIcons: ["mdi:server", "logos:nginx", "logos:docker"]
+    status: "In corso",
+    techs: [
+      { icon: "/logos/proxmox.png" },
+      { icon: "/logos/pfsense.png" },
+      { icon: "/logos/npm.png" },
+      { icon: "/logos/immich.png" },
+      { icon: "/logos/docker.png" }
+    ]
   },
   {
-    title: "Virtualizzazione Microsoft",
-    description: "Configurazione e gestione di Replication e Live Migration su ambiente Hyper-V.",
-    slug: "virtualizzazione-microsoft-hyper-v",
-    techIcons: ["logos:microsoft-windows", "mdi:microsoft"]
+    title: "Nextcloud on Microsoft Azure",
+    description: "Deploy VM Linux, Storage GZRS (North e West Europe), VNet Peering per connettere Nextcloud a DB PostgreSQL in region diverse.",
+    slug: "cloud-azure-e-networking",
+    status: "Completato",
+    techs: [
+      { icon: "/logos/azure.png" },
+      { icon: "/logos/nextcloud.png" },
+      { icon: "/logos/postgresql.png" }
+    ]
   },
   {
     title: "Infrastruttura Windows Server",
     description: "Failover DHCP e DNS con due Domain Controller, migrazione ruoli FSMO in Active Directory.",
     slug: "infrastruttura-windows-server",
-    techIcons: ["logos:microsoft-windows", "mdi:server-network"]
+    status: "Completato",
+    techs: [
+      { icon: "/logos/active-directory.png", label: "Active Directory" },
+      { icon: "/logos/dns.png", label: "DNS/DHCP" }
+    ]
   },
   {
-    title: "Backup Centralizzato",
-    description: "Gestione backup schedulati per ambienti Windows e Linux con limitazione della banda massima tramite UrBackup.",
-    slug: "backup-centralizzato-urbackup",
-    techIcons: ["mdi:backup-restore", "logos:linux-tux", "logos:microsoft-windows"]
+    title: "Cluster Hyper-V",
+    description: "Configurazione e gestione di Replication e Live Migration su ambiente Hyper-V.",
+    slug: "virtualizzazione-microsoft-hyper-v",
+    status: "Completato",
+    techs: [
+      { icon: "/logos/hyper-v.png" }
+    ]
   },
   {
-    title: "Cloud Azure & Networking",
-    description: "Deploy VM Linux, Storage GZRS (North e West Europe), VNet Peering per connettere Nextcloud a DB PostgreSQL in region diverse.",
-    slug: "cloud-azure-e-networking",
-    techIcons: ["logos:microsoft-azure", "logos:postgresql", "logos:linux-tux"]
-  },
-  {
-    title: "Machine Learning (Python)",
+    title: "Machine Learning con Python",
     description: "Analisi dati IMDb su Jupyter Notebook, pulizia dati con Numpy/Pandas, sviluppo e test di algoritmi predittivi.",
     slug: "machine-learning-python",
-    techIcons: ["logos:python", "logos:jupyter", "logos:numpy", "logos:pandas"]
+    status: "Completato",
+    techs: [
+      { icon: "/logos/python.png" },
+      { icon: "/logos/anaconda.png" },
+      { icon: "/logos/jupyter.png" }
+    ]
+  },
+  {
+    title: "Backup centralizzato con UrBackup",
+    description: "Gestione backup schedulati per ambienti Windows e Linux con limitazione della banda massima tramite UrBackup.",
+    slug: "backup-centralizzato-urbackup",
+    status: "Sospeso",
+    techs: [
+      { icon: "/logos/urbackup.png" },
+      { icon: "/logos/win11.png" },
+      { icon: "/logos/linux.png" }
+    ]
   }
 ];
 ---
@@ -85,11 +114,19 @@ const projects = [
     const scrollAmount = 400; // Adjust based on card width + gap
 
     scrollLeftBtn.addEventListener('click', () => {
-      carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      if (carousel.scrollLeft <= 0) {
+        carousel.scrollTo({ left: carousel.scrollWidth, behavior: 'smooth' });
+      } else {
+        carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      }
     });
 
     scrollRightBtn.addEventListener('click', () => {
-      carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 1) {
+        carousel.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      }
     });
   }
 </script>
