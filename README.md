@@ -1,12 +1,13 @@
 # Alessandro Sena - Personal Portfolio
+Personal portfolio and developer showcase featuring a clean, professional, and responsive design. Built to be highly readable while highlighting my journey, hands-on IT homelab architectures, practical projects, and vendor certifications across Cloud Computing, Systems Engineering, and Networking.
 
-Personal portfolio and developer showcase featuring a sleek, responsive terminal/hacker aesthetic. Designed to highlight my journey, hands-on IT homelab architectures, practical projects, and vendor certifications across Cloud Computing, Systems Engineering, and Networking.
 
 ## Tech Stack
 
-- **[Astro](https://astro.build/)** - Ultra-fast, content-driven web framework for high-performance frontend delivery.
-- **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first styling with custom cyberpunk and terminal design tokens.
-- **[astro-icon](https://github.com/natemoo-re/astro-icon)** - Optimized vector icon integrations for technologies and certification authorities.
+- **[Astro]** - Ultra-fast, content-driven web framework for high-performance frontend delivery.
+- **[Tailwind CSS]** - Utility-first styling utilized for a modern, spacious layout with full seamless Light/Dark mode support.
+- **[astro-icon]** - Optimized vector icon integrations for technologies and certification authorities.
+
 
 ## Local Development
 
@@ -23,3 +24,9 @@ To clone and run the project locally on your machine, follow these steps:
    ```
 
 The site will be available locally at `http://localhost:4321`.
+
+
+## Deployment
+
+This project is optimized for deployment on **Cloudflare Pages**. 
+By connecting your GitHub repository to Cloudflare and selecting the Astro framework preset, Cloudflare will automatically build and deploy the site upon every push to the main branch.
