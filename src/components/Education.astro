@@ -1,0 +1,58 @@
+---
+const educationData = [
+  {
+    period: "10/2025 - Attuale",
+    role: "ITS Network and Cloud Specialist",
+    institution: "ITS Angelo Rizzoli, Milano",
+    description: "Percorso di alta specializzazione tecnica (5 EQF), focalizzato sulle Architetture Cloud, Virtualizzazione, Cyber Security, Networking."
+  },
+  {
+    period: "03/2024 - 03/2025",
+    role: "Corso di Programmazione Python e Intelligenza Artificiale",
+    institution: "Istituto Volta",
+    description: "Percorso formativo specializzato sulla sintassi Python, OOP e Strutture Dati. Introduzione Machine Learning e Deep Learning."
+  },
+  {
+    period: "2018 - 2023",
+    role: "Diploma di Maturità in Informatica",
+    institution: "ITIS Stanislao Cannizzaro, Rho",
+    description: "Fondamenti di informatica, sviluppo software, architetture di rete e sistemi operativi."
+  }
+];
+---
+
+<section id="formazione" class="py-20 bg-slate-50">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Istruzione e Formazione</h2>
+      <p class="mt-4 text-lg text-slate-600">Il mio percorso accademico e i corsi di specializzazione.</p>
+    </div>
+    
+    <div class="relative border-l border-slate-200 ml-3 md:ml-6">
+      <div class="space-y-12">
+        {educationData.map((item, index) => (
+          <div class="relative pl-8 md:pl-12">
+            <!-- Timeline node -->
+            <div class="absolute left-[-5px] top-1.5 h-2.5 w-2.5 rounded-full bg-blue-600 ring-4 ring-slate-50"></div>
+            
+            <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-2">
+              <h3 class="text-xl font-bold text-slate-900">{item.role}</h3>
+              <time class="text-sm font-medium text-blue-600 mt-1 sm:mt-0 px-3 py-1 bg-blue-50 rounded-full inline-block w-max">
+                {item.period}
+              </time>
+            </div>
+            
+            <div class="text-base font-medium text-slate-700 mb-3">
+              {item.institution}
+            </div>
+            
+            <p class="text-slate-600 leading-relaxed">
+              {item.description}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+

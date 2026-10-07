@@ -1,0 +1,102 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import { Icon } from 'astro-icon/components';
+
+const projects = [
+  {
+    title: "Homelab & Backup",
+    description: "Proxmox, Nginx Proxy Manager, Rustdesk, Immich, Jellyfin, Proxmox Backup Server su mini PC dedicato.",
+    slug: "homelab-e-backup",
+    techIcons: ["mdi:server", "logos:nginx", "logos:docker"]
+  },
+  {
+    title: "Virtualizzazione Microsoft",
+    description: "Configurazione e gestione di Replication e Live Migration su ambiente Hyper-V.",
+    slug: "virtualizzazione-microsoft-hyper-v",
+    techIcons: ["logos:microsoft-windows", "mdi:microsoft"]
+  },
+  {
+    title: "Infrastruttura Windows Server",
+    description: "Failover DHCP e DNS con due Domain Controller, migrazione ruoli FSMO in Active Directory.",
+    slug: "infrastruttura-windows-server",
+    techIcons: ["logos:microsoft-windows", "mdi:server-network"]
+  },
+  {
+    title: "Backup Centralizzato",
+    description: "Gestione backup schedulati per ambienti Windows e Linux con limitazione della banda massima tramite UrBackup.",
+    slug: "backup-centralizzato-urbackup",
+    techIcons: ["mdi:backup-restore", "logos:linux-tux", "logos:microsoft-windows"]
+  },
+  {
+    title: "Cloud Azure & Networking",
+    description: "Deploy VM Linux, Storage GZRS (North e West Europe), VNet Peering per connettere Nextcloud a DB PostgreSQL in region diverse.",
+    slug: "cloud-azure-e-networking",
+    techIcons: ["logos:microsoft-azure", "logos:postgresql", "logos:linux-tux"]
+  },
+  {
+    title: "Machine Learning (Python)",
+    description: "Analisi dati IMDb su Jupyter Notebook, pulizia dati con Numpy/Pandas, sviluppo e test di algoritmi predittivi.",
+    slug: "machine-learning-python",
+    techIcons: ["logos:python", "logos:jupyter", "logos:numpy", "logos:pandas"]
+  }
+];
+---
+
+<section id="progetti" class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-12 flex items-end justify-between">
+      <div>
+        <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Progetti in Evidenza</h2>
+        <p class="mt-4 text-lg text-slate-600 max-w-2xl">Una selezione dei laboratori pratici e delle infrastrutture che ho progettato e configurato.</p>
+      </div>
+      
+      <!-- Optional navigation buttons for desktop -->
+      <div class="hidden md:flex gap-2">
+        <button id="scroll-left" class="p-2 rounded-full border border-slate-200 hover:bg-slate-50 text-slate-600 transition-colors" aria-label="Scorri a sinistra">
+          <Icon name="ph:caret-left-bold" class="w-5 h-5" />
+        </button>
+        <button id="scroll-right" class="p-2 rounded-full border border-slate-200 hover:bg-slate-50 text-slate-600 transition-colors" aria-label="Scorri a destra">
+          <Icon name="ph:caret-right-bold" class="w-5 h-5" />
+        </button>
+      </div>
+    </div>
+    
+    <div class="relative">
+      <div 
+        id="carousel" 
+        class="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 pt-2 scrollbar-hide"
+        style="scrollbar-width: none; -ms-overflow-style: none;"
+      >
+        {projects.map(project => (
+          <ProjectCard {...project} />
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Simple vanilla JS for carousel buttons
+  const carousel = document.getElementById('carousel');
+  const scrollLeftBtn = document.getElementById('scroll-left');
+  const scrollRightBtn = document.getElementById('scroll-right');
+
+  if (carousel && scrollLeftBtn && scrollRightBtn) {
+    const scrollAmount = 400; // Adjust based on card width + gap
+
+    scrollLeftBtn.addEventListener('click', () => {
+      carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    });
+
+    scrollRightBtn.addEventListener('click', () => {
+      carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    });
+  }
+</script>
+
+<style>
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+</style>

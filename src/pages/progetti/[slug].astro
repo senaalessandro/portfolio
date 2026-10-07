@@ -1,0 +1,97 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import { Icon } from 'astro-icon/components';
+
+export async function getStaticPaths() {
+  const projects = [
+    {
+      slug: "homelab-e-backup",
+      title: "Homelab & Backup",
+      description: "Infrastruttura home lab basata su Proxmox con gestione di molteplici servizi containerizzati e backup automatizzati.",
+      details: "In questo progetto ho configurato un mini PC dedicato come nodo Proxmox VE. Ho implementato Nginx Proxy Manager per l'esposizione sicura dei servizi, Rustdesk per il controllo remoto, e servizi multimediali/cloud come Immich e Jellyfin. La strategia di backup è gestita tramite Proxmox Backup Server, garantendo ritenzione e sicurezza dei dati.",
+      techIcons: ["mdi:server", "logos:nginx", "logos:docker", "logos:linux-tux"]
+    },
+    {
+      slug: "virtualizzazione-microsoft-hyper-v",
+      title: "Virtualizzazione Microsoft",
+      description: "Configurazione e gestione di Replication e Live Migration su ambiente Hyper-V.",
+      details: "Gestione avanzata di ambienti virtualizzati tramite Microsoft Hyper-V. Il laboratorio include la configurazione di virtual switch, snapshot (checkpoint), e funzionalità di alta affidabilità come Live Migration per spostare VM senza disservizio, oltre alla Replication per scopi di Disaster Recovery.",
+      techIcons: ["logos:microsoft-windows", "mdi:microsoft"]
+    },
+    {
+      slug: "infrastruttura-windows-server",
+      title: "Infrastruttura Windows Server",
+      description: "Failover DHCP e DNS con due Domain Controller, migrazione ruoli FSMO in Active Directory.",
+      details: "Progettazione e deploy di un dominio Active Directory (AD DS) basato su Windows Server 2019+. Ho configurato la ridondanza per i servizi core di rete tramite DHCP Failover e DNS replicato su due Domain Controller. Inoltre, ho simulato e testato con successo il trasferimento e il seizing dei ruoli FSMO in scenari di failover.",
+      techIcons: ["logos:microsoft-windows", "mdi:server-network", "mdi:shield-check"]
+    },
+    {
+      slug: "backup-centralizzato-urbackup",
+      title: "Backup Centralizzato",
+      description: "Gestione backup schedulati per ambienti Windows e Linux con limitazione della banda massima tramite UrBackup.",
+      details: "Implementazione di una soluzione di backup client-server multipiattaforma utilizzando UrBackup. La configurazione prevede schedulazione di backup sia full (immagine) che incrementali per client Windows e Linux, con tuning accurato della larghezza di banda per non saturare la rete aziendale/domestica durante le ore operative.",
+      techIcons: ["mdi:backup-restore", "logos:linux-tux", "logos:microsoft-windows"]
+    },
+    {
+      slug: "cloud-azure-e-networking",
+      title: "Cloud Azure & Networking",
+      description: "Deploy VM Linux, Storage GZRS, VNet Peering per connettere Nextcloud a DB PostgreSQL in region diverse.",
+      details: "Laboratorio Cloud su Microsoft Azure incentrato sul networking e storage ibrido/globale. Ho effettuato il provisioning di macchine virtuali Linux e configurato storage account con ridondanza geografica (GZRS). Il fulcro del progetto è la configurazione di VNet Peering tra architetture di rete isolate (North e West Europe) per far comunicare in modo sicuro un frontend Nextcloud con un database PostgreSQL.",
+      techIcons: ["logos:microsoft-azure", "logos:postgresql", "logos:linux-tux", "mdi:cloud"]
+    },
+    {
+      slug: "machine-learning-python",
+      title: "Machine Learning (Python)",
+      description: "Analisi dati IMDb su Jupyter Notebook, pulizia dati con Numpy/Pandas, sviluppo algoritmi predittivi.",
+      details: "Progetto di Data Science che utilizza Python e le sue librerie fondamentali (Numpy, Pandas) all'interno di un ambiente Jupyter Notebook. Il lavoro si è concentrato sull'estrazione e pulizia del dataset IMDb, analisi esplorativa dei dati (EDA) e sulla successiva implementazione e valutazione di algoritmi di Machine Learning per previsioni basate sui rating.",
+      techIcons: ["logos:python", "logos:jupyter", "logos:numpy", "logos:pandas"]
+    }
+  ];
+
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+---
+
+<Layout title={`${project.title} | Progetti | Alessandro Sena`}>
+  <Header />
+  
+  <main class="pt-24 pb-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <a href="/#progetti" class="inline-flex items-center text-sm font-medium text-slate-500 hover:text-blue-600 mb-8 transition-colors">
+        <Icon name="ph:arrow-left-bold" class="mr-2 h-4 w-4" />
+        Torna ai progetti
+      </a>
+      
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="p-8 md:p-12">
+          <div class="flex flex-wrap gap-3 mb-6">
+            {project.techIcons.map((icon) => (
+              <div class="p-2.5 bg-slate-50 rounded-lg ring-1 ring-inset ring-slate-200" title={icon}>
+                <Icon name={icon} class="w-8 h-8 text-slate-700" />
+              </div>
+            ))}
+          </div>
+          
+          <h1 class="text-3xl md:text-5xl font-bold text-slate-900 mb-6">{project.title}</h1>
+          
+          <p class="text-xl text-slate-600 mb-8 leading-relaxed">
+            {project.description}
+          </p>
+          
+          <div class="prose prose-slate prose-lg max-w-none">
+            <h2 class="text-xl font-bold text-slate-900 mb-4">Dettagli dell'implementazione</h2>
+            <p class="text-slate-600 leading-relaxed">
+              {project.details}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
