@@ -1,1 +1,4 @@
 @import "tailwindcss";
+
+/* Configura Tailwind v4 per usare la classe 'dark' invece della media query */
+@custom-variant dark (&:where(.dark, .dark *));

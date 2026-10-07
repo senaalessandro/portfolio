@@ -2,10 +2,10 @@
 import { Icon } from 'astro-icon/components';
 ---
 
-<section id="contatti" class="py-20 bg-slate-900 text-white">
+<section id="contatti" class="py-20 bg-slate-900 dark:bg-slate-950 text-white transition-colors duration-300">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
     <h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-6">Mettiamoci in Contatto</h2>
-    <p class="text-lg text-slate-300 mb-10 max-w-2xl mx-auto">
+    <p class="text-lg text-slate-300 dark:text-slate-400 mb-10 max-w-2xl mx-auto transition-colors">
       Sei interessato al mio profilo? Sono disponibile per nuove opportunità e collaborazioni. Non esitare a contattarmi.
     </p>
     
@@ -23,7 +23,7 @@ import { Icon } from 'astro-icon/components';
           href="https://www.linkedin.com/in/senaalessandro/" 
           target="_blank"
           rel="noopener noreferrer"
-          class="p-4 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-blue-700 hover:shadow-lg transition-all"
+          class="p-4 rounded-lg bg-slate-800 dark:bg-slate-900 text-slate-300 hover:text-white hover:bg-blue-700 dark:hover:bg-blue-800 hover:shadow-lg transition-all"
           aria-label="Profilo LinkedIn"
         >
           <Icon name="mdi:linkedin" class="h-7 w-7" />
@@ -33,7 +33,7 @@ import { Icon } from 'astro-icon/components';
           href="https://github.com/senaalessandro" 
           target="_blank"
           rel="noopener noreferrer"
-          class="p-4 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 hover:shadow-lg transition-all"
+          class="p-4 rounded-lg bg-slate-800 dark:bg-slate-900 text-slate-300 hover:text-white hover:bg-slate-700 dark:hover:bg-slate-800 hover:shadow-lg transition-all"
           aria-label="Profilo GitHub"
         >
           <Icon name="mdi:github" class="h-7 w-7" />
@@ -42,7 +42,7 @@ import { Icon } from 'astro-icon/components';
     </div>
   </div>
   
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20 pt-8 border-t border-slate-800 text-center text-slate-400 text-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20 pt-8 border-t border-slate-800 dark:border-slate-800/50 text-center text-slate-400 dark:text-slate-500 text-sm transition-colors">
     <p>&copy; {new Date().getFullYear()} Alessandro Sena. Tutti i diritti riservati.</p>
   </div>
 </section>

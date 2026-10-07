@@ -1,28 +1,75 @@
 ---
+import { Icon } from 'astro-icon/components';
 ---
 
-<header class="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-slate-200">
+<header class="fixed top-0 w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-md z-50 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
       <div class="flex-shrink-0">
-        <a href="#" class="text-xl font-bold text-slate-900 tracking-tight">
-          A.S<span class="text-blue-600">.</span>
+        <a href="#" class="text-xl font-bold text-slate-900 dark:text-white tracking-tight">
+          A.S<span class="text-blue-600 dark:text-blue-500">.</span>
         </a>
       </div>
       
       <nav class="hidden md:flex space-x-8">
-        <a href="#home" class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Home</a>
-        <a href="#progetti" class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Progetti</a>
-        <a href="#formazione" class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Formazione</a>
-        <a href="#certificazioni" class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Certificazioni</a>
+        <a href="#home" class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home</a>
+        <a href="#progetti" class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Progetti</a>
+        <a href="#formazione" class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Formazione</a>
+        <a href="#certificazioni" class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Certificazioni</a>
       </nav>
       
-      <div class="hidden md:flex">
-        <a href="#contatti" class="text-sm font-semibold text-blue-600 bg-blue-50 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors">
-          Contatti
-        </a>
+      <div class="flex items-center gap-4">
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" type="button" class="text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none rounded-lg text-sm p-2.5 transition-colors" aria-label="Toggle Dark Mode">
+          <Icon id="theme-toggle-dark-icon" name="ph:moon-bold" class="hidden w-5 h-5" />
+          <Icon id="theme-toggle-light-icon" name="ph:sun-bold" class="hidden w-5 h-5" />
+        </button>
+        
+        <div class="hidden md:flex">
+          <a href="#contatti" class="text-sm font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-4 py-2 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors">
+            Contatti
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </header>
 
+<script>
+  const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+  const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+  const themeToggleBtn = document.getElementById('theme-toggle');
+
+  // Change the icons inside the button based on previous settings
+  if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    themeToggleLightIcon?.classList.remove('hidden');
+  } else {
+    themeToggleDarkIcon?.classList.remove('hidden');
+  }
+
+  themeToggleBtn?.addEventListener('click', function() {
+    // toggle icons
+    themeToggleDarkIcon?.classList.toggle('hidden');
+    themeToggleLightIcon?.classList.toggle('hidden');
+
+    // if set via local storage previously
+    if (localStorage.getItem('theme')) {
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+        }
+    // if NOT set via local storage previously
+    } else {
+        if (document.documentElement.classList.contains('dark')) {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+        }
+    }
+  });
+</script>
