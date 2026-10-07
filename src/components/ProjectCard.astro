@@ -12,7 +12,7 @@ const { title, description, slug, techIcons } = Astro.props;
 ---
 
 <div class="flex-none w-80 md:w-96 snap-start">
-  <div class="flex flex-col h-full rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow p-6 transition-colors">
+  <div class="flex flex-col h-full rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-blue-500 dark:hover:border-blue-400 p-6">
     <div class="flex-1">
       <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-3 transition-colors">{title}</h3>
       <p class="text-slate-600 dark:text-slate-300 mb-6 text-sm leading-relaxed transition-colors">{description}</p>
@@ -21,7 +21,7 @@ const { title, description, slug, techIcons } = Astro.props;
     <div class="mt-auto">
       <div class="flex flex-wrap gap-2 mb-6">
         {techIcons.map((icon) => (
-          <div class="p-2 bg-slate-50 dark:bg-slate-700 rounded-md ring-1 ring-inset ring-slate-200 dark:ring-slate-600 transition-colors" title={icon}>
+          <div class="p-2 bg-white dark:bg-slate-700 rounded-md ring-1 ring-inset ring-slate-200 dark:ring-slate-600 transition-colors" title={icon}>
             <Icon name={icon} class="w-6 h-6 text-slate-700 dark:text-slate-200 transition-colors" />
           </div>
         ))}
@@ -29,7 +29,7 @@ const { title, description, slug, techIcons } = Astro.props;
       
       <a 
         href={`/progetti/${slug}`} 
-        class="inline-flex w-full items-center justify-center rounded-lg bg-slate-50 dark:bg-slate-700 px-4 py-2.5 text-sm font-semibold text-blue-700 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-600 hover:text-blue-800 dark:hover:text-blue-300 ring-1 ring-inset ring-slate-200 dark:ring-slate-600 hover:ring-blue-200 dark:hover:ring-slate-500 transition-colors"
+        class="inline-flex w-full items-center justify-center rounded-lg bg-white dark:bg-slate-700 px-4 py-2.5 text-sm font-semibold text-blue-700 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-600 hover:text-blue-800 dark:hover:text-blue-300 ring-1 ring-inset ring-slate-200 dark:ring-slate-600 hover:ring-blue-200 dark:hover:ring-slate-500 transition-colors"
       >
         Dettagli Progetto
         <Icon name="ph:arrow-right-bold" class="ml-2 w-4 h-4" />
