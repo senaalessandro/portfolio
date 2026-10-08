@@ -1,6 +1,6 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
-title: "Infrastruttura Windows Server"
+title: "Active Directory & HA"
 status: "Completato"
 techs: 
   - "/logos/win10.png"
