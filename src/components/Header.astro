@@ -13,7 +13,7 @@ import { Icon } from 'astro-icon/components';
       </div>
       
       <nav class="hidden md:flex space-x-2">
-        <a href="/#home" class="nav-link px-4 py-2 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/80 dark:hover:bg-slate-800/80 transition-all duration-200">Home</a>
+        <a href="/" class="nav-link px-4 py-2 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/80 dark:hover:bg-slate-800/80 transition-all duration-200">Home</a>
         <a href="/#progetti" class="nav-link px-4 py-2 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/80 dark:hover:bg-slate-800/80 transition-all duration-200">Progetti</a>
         <a href="/#formazione" class="nav-link px-4 py-2 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/80 dark:hover:bg-slate-800/80 transition-all duration-200">Formazione</a>
         <a href="/#certificazioni" class="nav-link px-4 py-2 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/80 dark:hover:bg-slate-800/80 transition-all duration-200">Certificazioni</a>
@@ -104,7 +104,8 @@ import { Icon } from 'astro-icon/components';
       link.classList.add('text-slate-600', 'dark:text-slate-300');
       
       // Apply active classes
-      if (link.getAttribute('href') === `/#${currentId}`) {
+      const href = link.getAttribute('href');
+      if (href === `/#${currentId}` || (currentId === 'home' && href === '/')) {
         link.classList.add('active', 'bg-gray-100/80', 'dark:bg-slate-800/80', 'text-blue-600', 'dark:text-blue-400');
         link.classList.remove('text-slate-600', 'dark:text-slate-300');
       }
@@ -116,4 +117,15 @@ import { Icon } from 'astro-icon/components';
   
   // Trigger on initial load
   updateActiveSection();
+
+  // Home link and Logo smooth scroll to top fix
+  document.querySelectorAll('a[href="/"]').forEach(link => {
+    link.addEventListener('click', function(e) {
+      if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        history.pushState(null, '', this.getAttribute('href'));
+      }
+    });
+  });
 </script>
