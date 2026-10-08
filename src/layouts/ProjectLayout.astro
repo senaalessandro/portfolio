@@ -14,7 +14,7 @@ const { frontmatter } = Astro.props;
       
       <!-- PULSANTE "TORNA AI PROGETTI" -->
       <div class="mb-8">
-        <a href="/#progetti" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 transition-all duration-200 hover:bg-gray-100/80 hover:text-inherit dark:hover:bg-slate-800/80 dark:hover:text-inherit">
+        <a href="/#progetti" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 transition-all duration-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/80 dark:hover:bg-slate-800/80">
           <Icon name="ph:arrow-left-bold" class="h-4 w-4" />
           Torna ai progetti
         </a>
@@ -41,11 +41,15 @@ const { frontmatter } = Astro.props;
           <!-- TECHS -->
           {frontmatter.techs && frontmatter.techs.length > 0 && (
             <div class="flex flex-wrap items-center gap-2 mb-8">
-              {frontmatter.techs.map((tech: string) => (
-                <div class="p-1.5 rounded-lg bg-gray-50 border border-gray-200 dark:bg-slate-700/50 dark:border-slate-600 flex items-center justify-center transition-colors">
-                  <img src={tech} alt="Tech logo" class="w-6 h-6 object-contain" />
-                </div>
-              ))}
+              {frontmatter.techs.map((tech: any) => {
+                const iconPath = typeof tech === 'string' ? tech : tech.icon;
+                const altText = typeof tech === 'string' ? "Tech logo" : (tech.label || "Tech logo");
+                return (
+                  <div class="p-1.5 rounded-lg bg-gray-50 border border-gray-200 dark:bg-slate-700/50 dark:border-slate-600 flex items-center justify-center transition-colors" title={altText}>
+                    <img src={iconPath} alt={altText} class="w-6 h-6 object-contain" />
+                  </div>
+                );
+              })}
             </div>
           )}
           
