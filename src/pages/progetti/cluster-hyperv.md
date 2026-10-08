@@ -3,6 +3,7 @@ layout: ../../layouts/ProjectLayout.astro
 title: "Cluster Hyper-V"
 status: "Completato"
 techs: 
+  - "/logos/win10.png"
   - "/logos/hyperv.png"
 ---
 ## Panoramica del Progetto

@@ -6,6 +6,8 @@ techs:
   - "/logos/azure.png"
   - "/logos/nextcloud.png"
   - "/logos/postgresql.png"
+  - "/logos/azure-vm.png"
+  - "/logos/azure-vnet.png"
 ---
 ## Panoramica del Progetto
 Deploy VM Linux, Storage GZRS e VNet Peering per connettere Nextcloud a DB PostgreSQL in region diverse.

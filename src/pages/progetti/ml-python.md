@@ -6,6 +6,10 @@ techs:
   - "/logos/python.png"
   - "/logos/anaconda.png"
   - "/logos/jupyter.png"
+  - "/logos/numpy.png"
+  - "/logos/pandas.png"
+  - "/logos/scikitlearn.png"
+  - "/logos/excel.png"
 ---
 ## Panoramica del Progetto
 Analisi dati IMDb su Jupyter Notebook, pulizia dati con Numpy/Pandas, sviluppo algoritmi predittivi.

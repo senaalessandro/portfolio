@@ -3,6 +3,7 @@ layout: ../../layouts/ProjectLayout.astro
 title: "Infrastruttura Windows Server"
 status: "Completato"
 techs: 
+  - "/logos/win10.png"
   - "/logos/active-directory.png"
   - "/logos/dns.png"
 ---
