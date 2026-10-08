@@ -1,6 +1,6 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
-title: "Proxmox VE & PBS"
+title: "Homelab Proxmox & PBS"
 status: "In corso"
 techs: 
   - "/logos/proxmox.png"

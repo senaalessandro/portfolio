@@ -1,6 +1,6 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
-title: "Nextcloud on Microsoft Azure"
+title: "Nextcloud su Azure"
 status: "Completato"
 techs: 
   - "/logos/azure.png"
