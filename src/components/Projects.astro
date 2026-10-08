@@ -18,7 +18,7 @@ const projects = [
   },
   {
     title: "Nextcloud on Microsoft Azure",
-    description: "Deploy VM Linux, Storage GZRS (North e West Europe), VNet Peering per connettere Nextcloud a DB PostgreSQL in region diverse.",
+    description: "Progettazione e deploy di un'infrastruttura Cloud Enterprise su Microsoft Azure per l'hosting di Nextcloud. Architettura disaccoppiata (VM Debian, DB PostgreSQL in VNet Peering, Storage GZRS), sicurezza perimetrale (Nginx Proxy Manager, NSG) e caching ottimizzato (Redis/APCu).",
     slug: "nextcloud-azure",
     status: "Completato",
     techs: [
@@ -95,7 +95,7 @@ const projects = [
     <div class="relative">
       <div 
         id="carousel" 
-        class="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 pt-2 scrollbar-hide"
+        class="flex items-stretch gap-6 overflow-x-auto snap-x snap-mandatory pb-8 pt-2 scrollbar-hide"
         style="scrollbar-width: none; -ms-overflow-style: none;"
       >
         {projects.map(project => (
