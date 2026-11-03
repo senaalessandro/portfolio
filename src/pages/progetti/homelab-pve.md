@@ -26,9 +26,9 @@ Progettazione, configurazione e messa in produzione di un'infrastruttura server 
 
 Il cluster si basa su un'architettura a due nodi per separare l'elaborazione dal backup:
 
-* **Hypervisor Primario (Proxmox VE):** Ace Magician AM06PRO equipaggiato con AMD Ryzen 7 5700U (8 core / 16 thread) e 32 GB di RAM DDR4. Il BIOS è configurato per l'efficienza energetica (Sustained PPT a 15W), la gestione termica ottimizzata per il silenzio e il ripristino automatico post-blackout.
+* **Hypervisor Primario (Proxmox VE):** Ace Magician AM06PRO equipaggiato con AMD Ryzen 7 5700U (8 core / 16 thread) e 32 GB di RAM DDR4.
 
-* **Nodo di Backup (Proxmox Backup Server):** Mini PC dedicato (BMAX con Intel Celeron N5095 e 8GB di RAM) isolato logicamente, che funge da sistema di **Disaster Recovery** on-premise.
+* **Nodo di Backup (Proxmox Backup Server):** BMAX B3 Pro (Intel Celeron N5095 e 8GB di RAM) isolato logicamente, che funge da sistema di **Disaster Recovery** on-premise.
 
 * **Gestione Standardizzata:** L'intera infrastruttura adotta una rigorosa convenzione logica. L'ID assegnato alla VM o al Container LXC determina direttamente l'ultimo ottetto del suo indirizzo IP (es. la VM `121` corrisponde all'IP `10.10.0.21`; il CT `122` corrisponde a `10.10.0.22`). Di pari passo, il nome della risorsa sull'hypervisor corrisponde specularmente all'hostname interno del sistema guest (es. la VM nominata `immich` ha come hostname `immich`; il CT nominato `npm` ha come hostname `npm`), garantendo una mappa mentale dell'infrastruttura coerente e un'amministrazione estremamente intuitiva.
 
