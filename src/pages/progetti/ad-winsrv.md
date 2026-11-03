@@ -21,7 +21,7 @@ L'ambiente è ospitato su hypervisor **Hyper-V** ed è stato segmentato logicame
 
 ## Active Directory e Risoluzione DNS
 
-Il cuore logico dell'infrastruttura è basato sul dominio `lab.local`, gestito da due server in ambito misto configurati per garantire ridondanza ai servizi di autenticazione e risoluzione nomi, e testare l'interoperabilità tra diverse versioni del sistema operativo:
+Il cuore logico dell'infrastruttura è basato sul dominio `lab.local`, gestito da due server configurati per garantire ridondanza ai servizi di autenticazione e risoluzione nomi, e testare l'interoperabilità tra diverse versioni del sistema operativo:
 
 * **Sincronia e Nomenclatura (Ambiente Misto):** È stata adottata una rigida convenzione di naming (l'hostname corrisponde esattamente al nome della VM). I ruoli **AD DS** e **DNS** sono stati installati su `SRV-DC-01` (basato su **Windows Server 2019**, `192.168.66.1`) e successivamente su `SRV-DC-02` (aggiornato a **Windows Server 2022**, `192.168.66.2`), gestendo con successo l'integrazione a dominio nella medesima foresta.
 

@@ -17,7 +17,7 @@ techs:
 ---
 ## Panoramica del Progetto
 
-Progettazione e messa in produzione di un ambiente Cloud Enterprise per l'hosting di **Nextcloud**, strutturato su un'architettura disaccoppiata (Compute, Database, Storage) per massimizzare la scalabilità. Il progetto è stato sviluppato integrando sicurezza perimetrale tramite Reverse Proxy e un'ottimizzazione avanzata delle performance.
+Progettazione e messa in produzione di un ambiente Cloud per l'hosting di **Nextcloud**, strutturato su un'architettura disaccoppiata (Compute, Database, Storage) per massimizzare la scalabilità. Il progetto è stato sviluppato integrando sicurezza perimetrale tramite Reverse Proxy e un'ottimizzazione avanzata delle performance.
 
 ## Infrastruttura Cloud (Microsoft Azure)
 

@@ -1,7 +1,7 @@
 ---
 const certifications = [
   {
-    title: "Security, Compliance, and Identity Fundamentals (SC-900)",
+    title: "Microsoft Security, Compliance, and Identity Fundamentals (SC-900)",
     vendor: "Microsoft",
     date: "07/2026",
     verifyUrl: "https://learn.microsoft.com/it-it/users/senaalessandro/credentials/AC85492B6DEA0869",
@@ -76,7 +76,7 @@ const certifications = [
       <p class="mt-4 text-lg text-slate-600 dark:text-slate-300 transition-colors">Le mie qualifiche professionali e badge di specializzazione.</p>
     </div>
     
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-fr">
       {certifications.map(cert => (
         <a 
           href={cert.verifyUrl} 

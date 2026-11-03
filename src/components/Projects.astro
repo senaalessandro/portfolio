@@ -17,8 +17,18 @@ const projects = [
     ]
   },
   {
+    title: "Cluster Hyper-V & DR",
+    description: "Progettazione e implementazione di un cluster Microsoft Hyper-V in alta affidabilità (HA). Architettura completa con Windows Server 2022, Active Directory, SAN iSCSI centralizzata, networking SDN e Disaster Recovery basato su Hyper-V Replica.",
+    slug: "cluster-hyperv",
+    status: "Completato",
+    techs: [
+      { icon: "/logos/win10.png" }, 
+      { icon: "/logos/hyperv.png" }
+    ]
+  },
+  {
     title: "Nextcloud su Azure",
-    description: "Progettazione e deploy di un'infrastruttura Cloud Enterprise su Microsoft Azure per l'hosting di Nextcloud. Architettura disaccoppiata (VM Debian, DB PostgreSQL in VNet Peering, Storage GZRS), sicurezza perimetrale (Nginx Proxy Manager, NSG) e caching ottimizzato (Redis/APCu).",
+    description: "Progettazione e deploy di un'infrastruttura Cloud su Microsoft Azure per l'hosting di Nextcloud. Architettura disaccoppiata (VM Debian, DB PostgreSQL in VNet Peering, Storage GZRS), sicurezza perimetrale (Nginx Proxy Manager, NSG) e caching ottimizzato (Redis/APCu).",
     slug: "nextcloud-azure",
     status: "Completato",
     techs: [
@@ -29,24 +39,13 @@ const projects = [
   },
   {
     title: "Active Directory & HA",
-    description: "Progettazione e implementazione di un'infrastruttura di dominio Microsoft in ambiente misto (WS 2019/2022). Configurazione di Active Directory in alta affidabilità (doppio Domain Controller), DHCP Failover, File Server con deduplica dati e automazione tramite Group Policy (GPO).",
+    description: "Progettazione e implementazione di un'infrastruttura di dominio Microsoft. Configurazione di Active Directory in alta affidabilità (doppio Domain Controller), DHCP Failover, File Server con deduplica dati e automazione tramite Group Policy (GPO).",
     slug: "ad-winsrv",
     status: "Completato",
     techs: [
       { icon: "/logos/win10.png" },  
       { icon: "/logos/active-directory.png" },
       { icon: "/logos/dns.png" }
-    ]
-  },
-  {
-    title: "Cluster Hyper-V",
-    description: "Progettazione di un cluster Hyper-V in ambiente Nested Virtualization. Automazione del provisioning tramite PowerShell, configurazione di Active Directory e implementazione di logiche di Alta Affidabilità aziendale (VM Replica e Live Migration con delega Kerberos).",
-    slug: "cluster-hyperv",
-    status: "Completato",
-    techs: [
-      { icon: "/logos/win10.png" }, 
-      { icon: "/logos/hyperv.png" },
-      { icon: "/logos/powershell.png" }
     ]
   },
   {
