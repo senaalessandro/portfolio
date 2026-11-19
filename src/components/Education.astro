@@ -3,7 +3,7 @@ const educationData = [
   {
     period: "10/2025 - Attuale",
     role: "ITS Network and Cloud Specialist",
-    institution: "ITS Angelo Rizzoli",
+    institution: "ITS Angelo Rizzoli, Milano",
     institutionUrl: "https://www.itsrizzoli.it/",
     logo: "/logos/itsar.png",
     description: "Percorso di alta specializzazione tecnica (5 EQF), focalizzato su Networking, Cloud, Virtualizzazione e Cyber Security.",
@@ -66,15 +66,27 @@ const revealDelays = ['delay-100', 'delay-200', 'delay-300'];
             </div>
             
             <!-- Card -->
-            <div class="bg-white/75 dark:bg-slate-800/50 backdrop-blur-sm border border-slate-300/80 dark:border-slate-700/80 shadow-sm rounded-2xl p-6 md:p-8 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:bg-white/90 dark:group-hover:bg-slate-800/70 group-hover:border-blue-500/60 dark:group-hover:border-cyan-400/50 group-hover:shadow-lg group-hover:shadow-blue-500/10 dark:group-hover:shadow-cyan-500/10">
-              <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-4">
+            <div class="relative overflow-hidden bg-white/75 dark:bg-slate-800/55 backdrop-blur-sm border border-slate-300/80 dark:border-slate-700/80 shadow-sm rounded-2xl p-6 md:p-8 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:bg-white/90 dark:group-hover:bg-slate-800/75 group-hover:border-blue-400/60 dark:group-hover:border-cyan-400/50 group-hover:shadow-lg group-hover:shadow-blue-500/10 dark:group-hover:shadow-cyan-500/15">
+              <!-- Top Highlight -->
+              <div
+                aria-hidden="true"
+                class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/20 dark:via-blue-400/35 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+              ></div>
+
+              <!-- Internal Hover Glow -->
+              <div
+                aria-hidden="true"
+                class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.06),transparent_65%)] dark:bg-[radial-gradient(circle_at_50%_0%,rgba(56,189,248,0.12),transparent_65%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              ></div>
+
+              <div class="relative z-10 flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-4">
                 <h3 class="text-xl font-bold text-slate-900 dark:text-white transition-colors">{item.role}</h3>
                 <time class="text-sm font-medium text-blue-600 dark:text-blue-400 mt-2 sm:mt-0 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 rounded-full inline-block w-max transition-colors shrink-0">
                   {item.period}
                 </time>
               </div>
               
-              <div class="flex items-center gap-3 text-base font-medium text-slate-700 dark:text-slate-300 mb-4 transition-colors">
+              <div class="relative z-10 flex items-center gap-3 text-base font-medium text-slate-700 dark:text-slate-300 mb-4 transition-colors">
                 {item.logo && (
                   <img src={item.logo} alt={`Logo ${item.institution}`} class="h-6 w-auto object-contain" />
                 )}
@@ -106,7 +118,7 @@ const revealDelays = ['delay-100', 'delay-200', 'delay-300'];
               </div>
               
               {item.description && (
-                <p class="text-slate-600 dark:text-slate-300 leading-relaxed transition-colors">
+                <p class="relative z-10 text-slate-600 dark:text-slate-300 leading-relaxed transition-colors">
                   {item.description}
                 </p>
               )}

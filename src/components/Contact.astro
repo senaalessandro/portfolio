@@ -2,7 +2,12 @@
 import { Icon } from 'astro-icon/components';
 ---
 
-<section id="contatti" class="py-20 bg-slate-900 dark:bg-slate-950 text-white transition-colors duration-300">
+<section id="contatti" class="relative py-20 bg-slate-900 dark:bg-slate-950 text-white transition-colors duration-300">
+  <!-- Divisore luminoso superiore -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500/35 dark:via-cyan-400/30 to-transparent"
+  ></div>
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
     <h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-6">Mettiamoci in Contatto</h2>
     <p class="text-lg text-slate-300 dark:text-slate-400 mb-10 max-w-2xl mx-auto transition-colors">
@@ -12,7 +17,7 @@ import { Icon } from 'astro-icon/components';
     <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
       <a 
         href="mailto:hello@alessandrosena.me" 
-        class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-8 py-4 text-lg font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-colors w-full sm:w-auto"
+        class="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-blue-500 border-t border-white/20 px-8 py-4 text-lg font-semibold text-white shadow-[0_4px_20px_-2px_rgba(37,99,235,0.35)] dark:shadow-[0_4px_24px_-2px_rgba(56,189,248,0.3)] hover:scale-105 active:scale-100 hover:brightness-110 hover:shadow-[0_0_24px_rgba(59,130,246,0.5)] dark:hover:shadow-[0_0_26px_rgba(56,189,248,0.45)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 transition-all duration-300 w-full sm:w-auto"
       >
         <Icon name="ph:envelope-simple" class="mr-3 h-6 w-6" />
         hello@alessandrosena.me
@@ -23,20 +28,20 @@ import { Icon } from 'astro-icon/components';
           href="https://www.linkedin.com/in/senaalessandro/" 
           target="_blank"
           rel="noopener noreferrer"
-          class="p-4 rounded-lg bg-slate-800 dark:bg-slate-900 text-slate-300 hover:text-white hover:bg-blue-700 dark:hover:bg-blue-800 hover:shadow-lg transition-all"
+          class="group inline-flex items-center justify-center p-4 rounded-xl bg-white/5 dark:bg-slate-900/60 backdrop-blur-sm border border-slate-700/70 dark:border-slate-800 text-slate-300 hover:text-blue-400 hover:bg-blue-500/15 hover:border-blue-400/60 hover:-translate-y-1 hover:shadow-[0_0_20px_-2px_rgba(59,130,246,0.45)] transition-all duration-300"
           aria-label="Profilo LinkedIn"
         >
-          <Icon name="mdi:linkedin" class="h-7 w-7" />
+          <Icon name="mdi:linkedin" class="h-7 w-7 transition-transform duration-300 group-hover:scale-110" />
         </a>
         
         <a 
           href="https://github.com/senaalessandro" 
           target="_blank"
           rel="noopener noreferrer"
-          class="p-4 rounded-lg bg-slate-800 dark:bg-slate-900 text-slate-300 hover:text-white hover:bg-slate-700 dark:hover:bg-slate-800 hover:shadow-lg transition-all"
+          class="group inline-flex items-center justify-center p-4 rounded-xl bg-white/5 dark:bg-slate-900/60 backdrop-blur-sm border border-slate-700/70 dark:border-slate-800 text-slate-300 hover:text-white hover:bg-white/10 hover:border-cyan-300/50 hover:-translate-y-1 hover:shadow-[0_0_20px_-2px_rgba(226,232,240,0.3)] dark:hover:shadow-[0_0_20px_-2px_rgba(103,232,249,0.3)] transition-all duration-300"
           aria-label="Profilo GitHub"
         >
-          <Icon name="mdi:github" class="h-7 w-7" />
+          <Icon name="mdi:github" class="h-7 w-7 transition-transform duration-300 group-hover:scale-110" />
         </a>
       </div>
     </div>
