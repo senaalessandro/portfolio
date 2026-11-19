@@ -38,6 +38,53 @@ const { title } = Astro.props;
 	</body>
 </html>
 
+<script>
+	let activeObservers: IntersectionObserver[] = [];
+
+	function initScrollReveal() {
+		activeObservers.forEach((obs) => obs.disconnect());
+		activeObservers = [];
+
+		const revealElements = document.querySelectorAll('.reveal:not(.active)');
+		if (!revealElements.length) return;
+
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+			revealElements.forEach((el) => el.classList.add('active'));
+			return;
+		}
+
+		const createObserver = (threshold: number) =>
+			new IntersectionObserver(
+				(entries, observer) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('active');
+							observer.unobserve(entry.target);
+						}
+					});
+				},
+				{ threshold }
+			);
+
+		const defaultObserver = createObserver(0.1);
+		const tallObserver = createObserver(0.01);
+		activeObservers.push(defaultObserver, tallObserver);
+
+		revealElements.forEach((el) => {
+			const isTall = el.getBoundingClientRect().height > window.innerHeight * 0.85;
+			(isTall ? tallObserver : defaultObserver).observe(el);
+		});
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initScrollReveal, { once: true });
+	} else {
+		initScrollReveal();
+	}
+
+	document.addEventListener('astro:page-load', initScrollReveal);
+</script>
+
 <style is:global>
 	/* Inter font is optional, but using system-ui by default provides a clean look */
 	body {
