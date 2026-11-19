@@ -3,42 +3,70 @@ const educationData = [
   {
     period: "10/2025 - Attuale",
     role: "ITS Network and Cloud Specialist",
-    institution: "ITS Angelo Rizzoli, Milano",
+    institution: "ITS Angelo Rizzoli",
+    institutionUrl: "https://www.itsrizzoli.it/",
     logo: "/logos/itsar.png",
-    description: "Percorso di alta specializzazione tecnica (5 EQF), focalizzato su Networking, Cloud, Virtualizzazione e Cyber Security."
+    description: "Percorso di alta specializzazione tecnica (5 EQF), focalizzato su Networking, Cloud, Virtualizzazione e Cyber Security.",
+    current: true
   },
   {
     period: "03/2024 - 03/2025",
     role: "Corso di Programmazione Python e AI",
     institution: "Volta Institute",
+    institutionUrl: "https://voltainstitute.it/",
     logo: "/logos/istituto-volta.png",
     description: "Percorso formativo specializzato sulla sintassi Python, OOP e Strutture Dati. Fondamenti Machine Learning e Deep Learning."
   },
   {
     period: "2018 - 2023",
     role: "Diploma di Maturità in Informatica",
-    institution: "ITIS Stanislao Cannizzaro, Rho"
+    institution: "ITIS Stanislao Cannizzaro, Rho",
+    institutionUrl: "https://www.itiscannizzaro.edu.it/"
   }
 ];
-const revealDelays = ['', 'delay-100', 'delay-200'];
+const revealDelays = ['delay-100', 'delay-200', 'delay-300'];
 ---
 
-<section id="formazione" class="py-20 bg-slate-100 dark:bg-slate-800 transition-colors duration-300">
+<section id="formazione" class="relative isolate py-20">
+  <!-- Ambient Glow -->
+  <div aria-hidden="true" class="pointer-events-none select-none absolute inset-0 -z-10 flex items-center justify-center">
+    <div class="h-[400px] w-[620px] -translate-x-16 rounded-full bg-gradient-to-tr from-sky-300/12 via-cyan-200/8 to-transparent dark:from-blue-600/15 dark:via-cyan-500/10 dark:to-transparent blur-3xl"></div>
+  </div>
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16 reveal">
       <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl transition-colors">Formazione</h2>
       <p class="mt-4 text-lg text-slate-600 dark:text-slate-300 transition-colors">Il mio percorso di studi e le specializzazioni tecniche.</p>
     </div>
     
-    <div class="relative border-l border-slate-300 dark:border-slate-700 ml-3 md:ml-6 transition-colors">
+    <div class="relative ml-3 md:ml-6">
+      <!-- Linea verticale a gradiente (presente -> passato) -->
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute left-0 top-10 bottom-0 w-0.5 bg-gradient-to-b from-blue-600 via-sky-500/50 to-slate-300/0 dark:from-cyan-400 dark:via-blue-500/50 dark:to-slate-700/0"
+      ></div>
+
       <div class="space-y-12">
         {educationData.map((item, index) => (
-          <div class={`relative pl-8 md:pl-12 reveal ${revealDelays[index % 3]}`.trim()}>
+          <div class={`group relative pl-8 md:pl-12 reveal ${revealDelays[index] ?? 'delay-300'}`}>
             <!-- Timeline node -->
-            <div class="absolute left-[-5px] top-10 h-2.5 w-2.5 rounded-full bg-blue-600 dark:bg-blue-500 ring-4 ring-slate-100 dark:ring-slate-800 transition-colors z-10"></div>
+            <div class="absolute left-[-5px] top-10 flex h-3 w-3 items-center justify-center z-10">
+              {item.current && (
+                <span
+                  aria-hidden="true"
+                  class="pointer-events-none absolute inline-flex h-4 w-4 rounded-full bg-blue-500/50 dark:bg-cyan-400/50 animate-ping motion-reduce:animate-none"
+                ></span>
+              )}
+              <span
+                class={`relative inline-flex h-3 w-3 rounded-full ring-4 ring-slate-50 dark:ring-slate-900 transition-all duration-300 group-hover:scale-125 group-hover:bg-blue-500 dark:group-hover:bg-cyan-400 group-hover:shadow-[0_0_12px_2px_rgba(37,99,235,0.5)] dark:group-hover:shadow-[0_0_14px_2px_rgba(34,211,238,0.55)] ${
+                  item.current
+                    ? 'bg-blue-600 dark:bg-cyan-400'
+                    : 'bg-blue-600/80 dark:bg-blue-500'
+                }`}
+              ></span>
+            </div>
             
             <!-- Card -->
-            <div class="bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 shadow-sm rounded-2xl p-6 md:p-8 transition-colors">
+            <div class="bg-white/75 dark:bg-slate-800/50 backdrop-blur-sm border border-slate-300/80 dark:border-slate-700/80 shadow-sm rounded-2xl p-6 md:p-8 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:bg-white/90 dark:group-hover:bg-slate-800/70 group-hover:border-blue-500/60 dark:group-hover:border-cyan-400/50 group-hover:shadow-lg group-hover:shadow-blue-500/10 dark:group-hover:shadow-cyan-500/10">
               <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-4">
                 <h3 class="text-xl font-bold text-slate-900 dark:text-white transition-colors">{item.role}</h3>
                 <time class="text-sm font-medium text-blue-600 dark:text-blue-400 mt-2 sm:mt-0 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 rounded-full inline-block w-max transition-colors shrink-0">
@@ -50,11 +78,35 @@ const revealDelays = ['', 'delay-100', 'delay-200'];
                 {item.logo && (
                   <img src={item.logo} alt={`Logo ${item.institution}`} class="h-6 w-auto object-contain" />
                 )}
-                <span>{item.institution}</span>
+                {item.institutionUrl ? (
+                  <a
+                    href={item.institutionUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="group/link inline-flex items-center gap-1.5 hover:text-blue-600 dark:hover:text-cyan-400 underline-offset-4 hover:underline transition-colors duration-200"
+                  >
+                    <span>{item.institution}</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                      class="h-3.5 w-3.5 shrink-0 opacity-50 transition-all duration-200 group-hover/link:opacity-100 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.22 14.78a.75.75 0 0 0 1.06 0l7.22-7.22v5.69a.75.75 0 0 0 1.5 0v-7.5a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0 0 1.5h5.69l-7.22 7.22a.75.75 0 0 0 0 1.06Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </a>
+                ) : (
+                  <span>{item.institution}</span>
+                )}
               </div>
               
               {item.description && (
-                <p class="text-slate-600 dark:text-slate-400 leading-relaxed transition-colors">
+                <p class="text-slate-600 dark:text-slate-300 leading-relaxed transition-colors">
                   {item.description}
                 </p>
               )}
