@@ -7,6 +7,7 @@ interface Props {
   slug: string;
   status: "Completato" | "In corso" | "Sospeso";
   techs: { icon: string; label?: string }[];
+  featured?: boolean;
 }
 
 const { title, description, slug, status, techs } = Astro.props;
@@ -24,10 +25,21 @@ const dotClasses = {
 };
 ---
 
-<div class="flex-none w-80 md:w-96 snap-start flex flex-col">
-  <div class="flex flex-col flex-1 rounded-2xl bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-blue-500 dark:hover:border-blue-400 p-6">
+<div class="h-full flex flex-col">
+  <div class="group relative overflow-hidden flex flex-col flex-1 h-full rounded-2xl bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/10 dark:hover:shadow-cyan-500/15 hover:border-blue-500/80 dark:hover:border-cyan-400/60 p-6">
+    <!-- Top Highlight (1px riflesso dall'alto) -->
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/20 dark:via-blue-400/35 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+    ></div>
+
+    <!-- Luce radiale interna in hover -->
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.06),transparent_65%)] dark:bg-[radial-gradient(circle_at_50%_0%,rgba(56,189,248,0.12),transparent_65%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+    ></div>
     
-    <div class="border-b border-gray-200 dark:border-gray-700 pb-4 mb-4">
+    <div class="relative z-10 border-b border-gray-200 dark:border-gray-700 pb-4 mb-4">
       <div class="flex items-start justify-between mb-3 gap-2">
         <h3 class="text-xl font-semibold text-slate-900 dark:text-white transition-colors min-h-[3.5rem]">{title}</h3>
         <span class={`flex-shrink-0 inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-semibold border ${statusClasses[status]} transition-colors`}>
@@ -46,17 +58,17 @@ const dotClasses = {
       </div>
     </div>
     
-    <p class="text-slate-600 dark:text-slate-300 mb-6 text-sm leading-relaxed transition-colors flex-grow">
+    <p class="relative z-10 text-slate-600 dark:text-slate-300 mb-6 text-sm leading-relaxed transition-colors flex-grow">
       {description}
     </p>
     
-    <div class="mt-auto">
+    <div class="relative z-10 mt-auto">
       <a 
         href={`/progetti/${slug}`} 
-        class="inline-flex w-full items-center justify-center rounded-lg bg-white dark:bg-slate-700 px-4 py-2.5 text-sm font-semibold text-blue-700 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-600 hover:text-blue-800 dark:hover:text-blue-300 ring-1 ring-inset ring-slate-200 dark:ring-slate-600 hover:ring-blue-200 dark:hover:ring-slate-500 transition-colors"
+        class="group/btn inline-flex w-full items-center justify-center rounded-lg bg-white dark:bg-slate-700 px-4 py-2.5 text-sm font-semibold text-blue-700 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-600/90 hover:text-blue-800 dark:hover:text-cyan-300 ring-1 ring-inset ring-slate-200 dark:ring-slate-600 hover:ring-blue-400/70 dark:hover:ring-cyan-400/60 hover:shadow-sm hover:shadow-blue-500/15 dark:hover:shadow-cyan-400/15 transition-all duration-300"
       >
         Dettagli Progetto
-        <Icon name="ph:arrow-right-bold" class="ml-2 w-4 h-4" />
+        <Icon name="ph:arrow-right-bold" class="ml-2 w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
       </a>
     </div>
   </div>
