@@ -4,22 +4,22 @@ import { Icon } from 'astro-icon/components';
 
 <header class="fixed top-0 w-full bg-white dark:bg-slate-900/80 backdrop-blur-md z-50 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center h-16">
-      <div class="flex-shrink-0">
+    <div class="flex justify-between items-center md:grid md:grid-cols-[1fr_auto_1fr] md:items-center h-16">
+      <div class="flex-shrink-0 justify-self-start">
         <a href="/" class="block">
           <img src="/logos/logo-light.png" alt="Alessandro Sena Logo" class="h-10 w-auto object-contain dark:hidden" />
           <img src="/logos/logo-dark.png" alt="Alessandro Sena Logo" class="h-10 w-auto object-contain hidden dark:block" />
         </a>
       </div>
       
-      <nav class="hidden md:flex space-x-2">
+      <nav class="hidden md:flex space-x-2 justify-self-center">
         <a href="/" class="nav-link px-4 py-2 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/80 dark:hover:bg-slate-800/80 transition-all duration-200">Home</a>
         <a href="/#progetti" class="nav-link px-4 py-2 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/80 dark:hover:bg-slate-800/80 transition-all duration-200">Progetti</a>
         <a href="/#formazione" class="nav-link px-4 py-2 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/80 dark:hover:bg-slate-800/80 transition-all duration-200">Formazione</a>
         <a href="/#certificazioni" class="nav-link px-4 py-2 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/80 dark:hover:bg-slate-800/80 transition-all duration-200">Certificazioni</a>
       </nav>
       
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-4 justify-self-end">
         <!-- Theme Toggle Button -->
         <button id="theme-toggle" type="button" class="text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none rounded-lg text-sm p-2.5 transition-colors" aria-label="Toggle Dark Mode">
           <Icon id="theme-toggle-dark-icon" name="ph:moon-bold" class="hidden w-5 h-5" />
