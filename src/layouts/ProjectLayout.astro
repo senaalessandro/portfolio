@@ -2,68 +2,362 @@
 import Layout from './Layout.astro';
 import Header from '../components/Header.astro';
 import { Icon } from 'astro-icon/components';
+import { projects } from '../data/projects';
 
-const { frontmatter } = Astro.props;
+interface MarkdownHeading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+const { frontmatter, headings = [] } = Astro.props as {
+  frontmatter: {
+    title: string;
+    status?: string;
+    techs?: (string | { icon: string; label?: string })[];
+  };
+  headings?: MarkdownHeading[];
+};
+
+const h2Headings = headings.filter((h) => h.depth === 2);
+const hasFullDocs = h2Headings.length >= 2;
+
+const normalizedPath = Astro.url.pathname.replace(/\/+$/, '');
+const currentSlug = normalizedPath.split('/').pop() ?? '';
+const currentIndex = projects.findIndex((p) => p.slug === currentSlug);
+const hasCircularNav = currentIndex !== -1 && projects.length > 1;
+const prevProject = hasCircularNav
+  ? projects[(currentIndex - 1 + projects.length) % projects.length]
+  : null;
+const nextProject = hasCircularNav
+  ? projects[(currentIndex + 1) % projects.length]
+  : null;
+
+const statusClasses: Record<string, string> = {
+  "Completato": "bg-green-100/90 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800",
+  "In corso": "bg-amber-100/90 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800",
+  "Sospeso": "bg-red-100/90 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800"
+};
+
+const dotClasses: Record<string, string> = {
+  "Completato": "bg-green-500",
+  "In corso": "bg-amber-500",
+  "Sospeso": "bg-red-500"
+};
+
+const badgeClass =
+  (frontmatter.status && statusClasses[frontmatter.status]) ||
+  "bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700";
+const dotClass = frontmatter.status ? dotClasses[frontmatter.status] : undefined;
 ---
 
-<Layout title={`${frontmatter.title}  | Alessandro Sena`}>
+<Layout title={`${frontmatter.title} | Alessandro Sena`}>
   <Header />
-  
-  <main class="pt-24 pb-20">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- PULSANTE "TORNA AI PROGETTI" -->
-      <div class="mb-8">
-        <a href="/#progetti" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 transition-all duration-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/80 dark:hover:bg-slate-800/80">
-          <Icon name="ph:arrow-left-bold" class="h-4 w-4" />
-          Torna ai progetti
-        </a>
-      </div>
-      
-      <div class="reveal">
-      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
-        <div class="p-8 md:p-12">
-          
-          <!-- STATUS BADGE E TITOLO -->
-          <div class="flex items-center flex-wrap gap-4 mb-4">
-            <h1 class="text-3xl md:text-4xl font-bold m-0 leading-tight text-slate-900 dark:text-white transition-colors">{frontmatter.title}</h1>
-            
-            {frontmatter.status && (
-              <span class={`inline-flex px-3 py-1 mt-1 text-xs font-semibold rounded-full border ${
-                frontmatter.status === 'In corso' ? 'bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800' : 
-                frontmatter.status === 'Completato' ? 'bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800' :
-                frontmatter.status === 'Sospeso' ? 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800' :
-                'bg-slate-50 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700'
-              }`}>
-                {frontmatter.status}
-              </span>
-            )}
+
+  {hasFullDocs && (
+    <div
+      aria-hidden="true"
+      class="pointer-events-none fixed top-16 left-0 right-0 z-40 h-[2px] bg-slate-200/40 dark:bg-slate-800/60"
+    >
+      <div
+        id="reading-progress-bar"
+        class="h-full w-full origin-left scale-x-0 bg-gradient-to-r from-blue-500 to-cyan-400 transition-transform duration-75 ease-out"
+      ></div>
+    </div>
+  )}
+
+  <main class="relative isolate pt-24 pb-20">
+    <!-- Ambient Glow dietro l'intestazione -->
+    <div
+      aria-hidden="true"
+      class="pointer-events-none select-none absolute inset-x-0 top-0 h-[440px] -z-10 overflow-x-clip flex justify-center"
+    >
+      <div class="h-[340px] w-[620px] -translate-y-12 rounded-full bg-gradient-to-tr from-sky-300/12 via-cyan-200/8 to-transparent dark:from-blue-600/15 dark:via-cyan-500/10 dark:to-transparent blur-3xl"></div>
+    </div>
+
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div class={hasFullDocs ? 'lg:grid lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-8 xl:grid-cols-[1fr_minmax(0,800px)_1fr] xl:gap-10 lg:items-start' : ''}>
+        <!-- COLONNA 1: INDICE LATERALE STICKY A SINISTRA (solo se hasFullDocs === true) -->
+        {hasFullDocs && (
+          <aside class="hidden lg:block sticky top-24 self-start lg:mt-[70px] reveal delay-100" aria-label="Indice dei contenuti">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">
+              In questa pagina
+            </h2>
+
+            <nav aria-label="Sezioni del progetto">
+              <ul class="space-y-1 border-l border-slate-300/70 dark:border-slate-700/80">
+                {h2Headings.map((heading, index) => (
+                  <li>
+                    <a
+                      href={`#${heading.slug}`}
+                      data-toc-link={heading.slug}
+                      class={`toc-link block -ml-px border-l-2 py-1.5 pl-3 text-sm leading-snug transition-all duration-200 ${
+                        index === 0
+                          ? 'border-blue-600 dark:border-cyan-400 text-blue-700 dark:text-cyan-300 font-medium'
+                          : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-slate-600'
+                      }`}
+                    >
+                      {heading.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </aside>
+        )}
+
+        <!-- COLONNA 2: CONTENUTO CENTRATO -->
+        <div class="min-w-0 w-full max-w-[800px] mx-auto">
+          <!-- PULSANTE "TORNA AI PROGETTI" -->
+          <div class="mb-8">
+            <a
+              href="/#progetti"
+              class="group inline-flex items-center gap-2 rounded-lg bg-white/75 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-300/80 dark:border-slate-700/80 px-4 py-2 text-sm font-semibold text-slate-800 dark:text-slate-100 shadow-sm hover:bg-blue-500/15 dark:hover:bg-blue-500/15 hover:border-blue-400/60 dark:hover:border-cyan-400/60 hover:text-blue-700 dark:hover:text-cyan-300 hover:shadow-[0_0_20px_-2px_rgba(59,130,246,0.28)] dark:hover:shadow-[0_0_22px_-2px_rgba(56,189,248,0.28)] hover:-translate-y-0.5 transition-all duration-300"
+            >
+              <Icon name="ph:arrow-left-bold" class="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
+              Torna ai progetti
+            </a>
           </div>
-          
-          <!-- TECHS -->
-          {frontmatter.techs && frontmatter.techs.length > 0 && (
-            <div class="flex flex-wrap items-center gap-2 mb-8">
-              {frontmatter.techs.map((tech: any) => {
-                const iconPath = typeof tech === 'string' ? tech : tech.icon;
-                const altText = typeof tech === 'string' ? "Tech logo" : (tech.label || "Tech logo");
-                return (
-                  <div class="p-1.5 rounded-lg bg-gray-50 border border-gray-200 dark:bg-slate-700/50 dark:border-slate-600 flex items-center justify-center transition-colors" title={altText}>
-                    <img src={iconPath} alt={altText} class="w-6 h-6 object-contain" />
+          <div class="reveal">
+            <article class="relative overflow-hidden rounded-2xl bg-white/75 dark:bg-slate-800/55 backdrop-blur-sm border border-slate-300/80 dark:border-slate-700/80 shadow-sm transition-colors duration-300">
+              <!-- Top Highlight (1px riflesso dall'alto) -->
+              <div
+                aria-hidden="true"
+                class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/20 dark:via-blue-400/35 to-transparent"
+              ></div>
+
+              <div class="relative z-10 p-6 sm:p-8 md:p-12">
+                <!-- INTESTAZIONE PROGETTO -->
+                <header class="border-b border-slate-200/80 dark:border-slate-700/70 pb-8 mb-8">
+                  <div class="flex items-center flex-wrap gap-4 mb-5">
+                    <h1 class="text-3xl md:text-4xl font-bold m-0 leading-tight text-slate-900 dark:text-white transition-colors">
+                      {frontmatter.title}
+                    </h1>
+
+                    {frontmatter.status && (
+                      <span class={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-full border ${badgeClass} transition-colors`}>
+                        {dotClass && <span class={`w-1.5 h-1.5 rounded-full ${dotClass}`}></span>}
+                        {frontmatter.status}
+                      </span>
+                    )}
                   </div>
-                );
-              })}
-            </div>
-          )}
-          
-          <!-- CONTENUTO MARKDOWN -->
-          <div class="prose prose-slate dark:prose-invert max-w-none prose-lg prose-headings:transition-colors prose-p:transition-colors prose-h1:hidden prose-h2:border-b prose-h2:border-gray-200 dark:prose-h2:border-gray-700 prose-h2:pb-2 prose-h2:mt-10 mt-8">
-            <slot />
+
+                  {frontmatter.techs && frontmatter.techs.length > 0 && (
+                    <div class="flex flex-wrap items-center gap-2">
+                      {frontmatter.techs.map((tech) => {
+                        const iconPath = typeof tech === 'string' ? tech : tech.icon;
+                        const altText = typeof tech === 'string' ? 'Tech logo' : tech.label || 'Tech logo';
+                        return (
+                          <div
+                            class="p-1.5 rounded-lg bg-slate-50/90 border border-slate-200/80 dark:bg-slate-700/50 dark:border-slate-600/80 flex items-center justify-center transition-colors"
+                            title={altText}
+                          >
+                            <img src={iconPath} alt={altText} class="w-6 h-6 object-contain" />
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </header>
+
+                <!-- CONTENUTO MARKDOWN -->
+                <div class="project-prose prose prose-slate dark:prose-invert max-w-none prose-lg prose-headings:transition-colors prose-p:transition-colors prose-h1:hidden">
+                  <slot />
+                </div>
+              </div>
+            </article>
           </div>
-          
+
+          <!-- NAVIGAZIONE PRECEDENTE / SUCCESSIVO -->
+          {(prevProject || nextProject) && (
+            <nav
+              aria-label="Navigazione progetti"
+              class="mt-8 pt-6 border-t border-slate-200/80 dark:border-slate-800/60 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 reveal"
+            >
+              {prevProject && (
+                <a
+                  href={`/progetti/${prevProject.slug}`}
+                  title={prevProject.title}
+                  class="group flex w-full sm:w-[270px] items-center justify-between gap-3 rounded-xl bg-white/75 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-300/80 dark:border-slate-700/80 px-5 py-3.5 text-slate-800 dark:text-slate-100 shadow-sm hover:bg-blue-500/15 dark:hover:bg-blue-500/15 hover:border-blue-400/60 dark:hover:border-cyan-400/60 hover:text-blue-700 dark:hover:text-cyan-300 hover:shadow-[0_0_20px_-2px_rgba(59,130,246,0.28)] dark:hover:shadow-[0_0_22px_-2px_rgba(56,189,248,0.28)] hover:-translate-y-0.5 transition-all duration-300"
+                >
+                  <Icon name="ph:arrow-left-bold" class="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:-translate-x-1" />
+                  <span class="flex min-w-0 flex-1 flex-col gap-1 text-left leading-snug">
+                    <span class="text-xs font-medium text-slate-500 dark:text-slate-400">Progetto Precedente</span>
+                    <span class="block truncate text-sm sm:text-base font-semibold">{prevProject.title}</span>
+                  </span>
+                </a>
+              )}
+
+              {nextProject && (
+                <a
+                  href={`/progetti/${nextProject.slug}`}
+                  title={nextProject.title}
+                  class="group flex w-full sm:w-[270px] items-center justify-between gap-3 rounded-xl bg-white/75 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-300/80 dark:border-slate-700/80 px-5 py-3.5 text-slate-800 dark:text-slate-100 shadow-sm hover:bg-blue-500/15 dark:hover:bg-blue-500/15 hover:border-blue-400/60 dark:hover:border-cyan-400/60 hover:text-blue-700 dark:hover:text-cyan-300 hover:shadow-[0_0_20px_-2px_rgba(59,130,246,0.28)] dark:hover:shadow-[0_0_22px_-2px_rgba(56,189,248,0.28)] hover:-translate-y-0.5 transition-all duration-300 sm:ml-auto"
+                >
+                  <span class="flex min-w-0 flex-1 flex-col gap-1 text-right leading-snug">
+                    <span class="text-xs font-medium text-slate-500 dark:text-slate-400">Progetto Successivo</span>
+                    <span class="block truncate text-sm sm:text-base font-semibold">{nextProject.title}</span>
+                  </span>
+                  <Icon name="ph:arrow-right-bold" class="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1" />
+                </a>
+              )}
+            </nav>
+          )}
         </div>
-      </div>
+
+        <!-- COLONNA 3: CONTRAPPESO SIMMETRICO (solo se hasFullDocs === true) -->
+        {hasFullDocs && <div class="hidden xl:block" aria-hidden="true"></div>}
       </div>
     </div>
   </main>
 </Layout>
 
+<script>
+  let cleanupProjectEnhancements: (() => void) | null = null;
+
+  function initProjectEnhancements() {
+    if (cleanupProjectEnhancements) {
+      cleanupProjectEnhancements();
+      cleanupProjectEnhancements = null;
+    }
+
+    const progressBar = document.getElementById('reading-progress-bar');
+    const tocLinks = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]')
+    );
+    const headings = Array.from(
+      document.querySelectorAll<HTMLElement>('.project-prose h2[id]')
+    );
+
+    if (!progressBar && (!tocLinks.length || !headings.length)) return;
+
+    const cleanups: (() => void)[] = [];
+
+    const activeClasses = [
+      'border-blue-600',
+      'dark:border-cyan-400',
+      'text-blue-700',
+      'dark:text-cyan-300',
+      'font-medium'
+    ];
+    const inactiveClasses = [
+      'border-transparent',
+      'text-slate-600',
+      'dark:text-slate-400',
+      'hover:text-slate-900',
+      'dark:hover:text-slate-200',
+      'hover:border-slate-300',
+      'dark:hover:border-slate-600'
+    ];
+
+    function setActiveToc(slug: string) {
+      tocLinks.forEach((link) => {
+        const isMatch = link.dataset.tocLink === slug;
+        if (isMatch) {
+          link.classList.remove(...inactiveClasses);
+          link.classList.add(...activeClasses);
+        } else {
+          link.classList.remove(...activeClasses);
+          link.classList.add(...inactiveClasses);
+        }
+      });
+    }
+
+    function updateProgress() {
+      if (!progressBar) return;
+      const scrollTop = window.scrollY;
+      const docHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const progress =
+        docHeight > 0 ? Math.min(1, Math.max(0, scrollTop / docHeight)) : 1;
+      progressBar.style.transform = `scaleX(${progress})`;
+    }
+
+    function syncTocOnScroll() {
+      if (!headings.length) return;
+      if (
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 40
+      ) {
+        setActiveToc(headings[headings.length - 1].id);
+        return;
+      }
+
+      const offset = 140;
+      let currentId = headings[0].id;
+      for (const heading of headings) {
+        if (heading.getBoundingClientRect().top <= offset) {
+          currentId = heading.id;
+        } else {
+          break;
+        }
+      }
+      setActiveToc(currentId);
+    }
+
+    let rafId: number | null = null;
+    const onScrollOrResize = () => {
+      if (rafId !== null) return;
+      rafId = window.requestAnimationFrame(() => {
+        updateProgress();
+        syncTocOnScroll();
+        rafId = null;
+      });
+    };
+
+    window.addEventListener('scroll', onScrollOrResize, { passive: true });
+    window.addEventListener('resize', onScrollOrResize, { passive: true });
+    cleanups.push(() => {
+      window.removeEventListener('scroll', onScrollOrResize);
+      window.removeEventListener('resize', onScrollOrResize);
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+    });
+
+    if (headings.length && tocLinks.length) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const intersecting = entries.filter((entry) => entry.isIntersecting);
+          if (intersecting.length > 0) {
+            intersecting.sort(
+              (a, b) => a.boundingClientRect.top - b.boundingClientRect.top
+            );
+            setActiveToc(intersecting[0].target.id);
+          }
+        },
+        {
+          rootMargin: '-96px 0px -65% 0px',
+          threshold: 0
+        }
+      );
+
+      headings.forEach((heading) => observer.observe(heading));
+      cleanups.push(() => observer.disconnect());
+
+      tocLinks.forEach((link) => {
+        const handleClick = () => {
+          const slug = link.dataset.tocLink;
+          if (slug) setActiveToc(slug);
+        };
+        link.addEventListener('click', handleClick);
+        cleanups.push(() => link.removeEventListener('click', handleClick));
+      });
+    }
+
+    updateProgress();
+    syncTocOnScroll();
+
+    cleanupProjectEnhancements = () => {
+      cleanups.forEach((fn) => fn());
+    };
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initProjectEnhancements, {
+      once: true
+    });
+  } else {
+    initProjectEnhancements();
+  }
+
+  document.addEventListener('astro:page-load', initProjectEnhancements);
+</script>
