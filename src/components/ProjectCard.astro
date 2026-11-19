@@ -1,28 +1,37 @@
 ---
 import { Icon } from 'astro-icon/components';
+import type { ProjectStatus, ProjectTech } from '../data/projects';
+import { getLangFromUrl, getLocalizedPath, useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
 
 interface Props {
   title: string;
   description: string;
   slug: string;
-  status: "Completato" | "In corso" | "Sospeso";
-  techs: { icon: string; label?: string }[];
+  status: ProjectStatus;
+  techs: ProjectTech[];
   featured?: boolean;
+  lang?: Lang;
 }
 
 const { title, description, slug, status, techs } = Astro.props;
+const lang = Astro.props.lang ?? getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const projectHref = getLocalizedPath(`/progetti/${slug}`, lang);
 
-const statusClasses = {
+const statusClasses: Record<ProjectStatus, string> = {
   "Completato": "bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800",
   "In corso": "bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800",
   "Sospeso": "bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800"
 };
 
-const dotClasses = {
+const dotClasses: Record<ProjectStatus, string> = {
   "Completato": "bg-green-500",
   "In corso": "bg-amber-500",
   "Sospeso": "bg-red-500"
 };
+
+const statusLabel = t(`status.${status}`);
 ---
 
 <div class="h-full flex flex-col">
@@ -44,13 +53,13 @@ const dotClasses = {
         <h3 class="text-xl font-semibold text-slate-900 dark:text-white transition-colors min-h-[3.5rem]">{title}</h3>
         <span class={`flex-shrink-0 inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-semibold border ${statusClasses[status]} transition-colors`}>
           <span class={`w-1.5 h-1.5 rounded-full ${dotClasses[status]}`}></span>
-          {status}
+          {statusLabel}
         </span>
       </div>
       
       <div class="flex flex-wrap gap-2">
         {techs.map((tech) => (
-          <div class="flex items-center gap-2 p-1.5 rounded-md bg-slate-50 border border-slate-200 dark:bg-slate-700/50 dark:border-slate-600 transition-colors" title={tech.label || "Tecnologia"}>
+          <div class="flex items-center gap-2 p-1.5 rounded-md bg-slate-50 border border-slate-200 dark:bg-slate-700/50 dark:border-slate-600 transition-colors" title={tech.label || t('projects.techDefault')}>
             <img src={tech.icon} class="h-5 w-auto object-contain" alt="" />
             {tech.label && <span class="text-xs font-medium text-slate-700 dark:text-slate-300 pr-1">{tech.label}</span>}
           </div>
@@ -64,13 +73,12 @@ const dotClasses = {
     
     <div class="relative z-10 mt-auto">
       <a 
-        href={`/progetti/${slug}`} 
+        href={projectHref} 
         class="group/btn inline-flex w-full items-center justify-center rounded-lg bg-white/75 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-300/80 dark:border-slate-700/80 px-4 py-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100 shadow-sm hover:bg-blue-500/15 dark:hover:bg-blue-500/15 hover:border-blue-400/60 dark:hover:border-cyan-400/60 hover:text-blue-700 dark:hover:text-cyan-300 hover:shadow-[0_0_20px_-2px_rgba(59,130,246,0.28)] dark:hover:shadow-[0_0_22px_-2px_rgba(56,189,248,0.28)] transition-all duration-300"
       >
-        Dettagli Progetto
+        {t('projects.details')}
         <Icon name="ph:arrow-right-bold" class="ml-2 w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
       </a>
     </div>
   </div>
 </div>
-

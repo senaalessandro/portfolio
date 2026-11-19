@@ -1,34 +1,62 @@
 ---
 import { Icon } from 'astro-icon/components';
+import { getAlternateUrl, getLangFromUrl, getLocalizedPath, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const alternateUrl = getAlternateUrl(Astro.url);
+const targetLangCode = lang === 'it' ? 'EN' : 'IT';
+
+const homeHref = getLocalizedPath('/', lang);
+const projectsHref = getLocalizedPath('/#progetti', lang);
+const educationHref = getLocalizedPath('/#formazione', lang);
+const certificationsHref = getLocalizedPath('/#certificazioni', lang);
+const contactHref = getLocalizedPath('/#contatti', lang);
 ---
 
 <header class="fixed top-0 w-full bg-white dark:bg-slate-900/80 backdrop-blur-md z-50 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center md:grid md:grid-cols-[1fr_auto_1fr] md:items-center h-16">
       <div class="flex-shrink-0 justify-self-start">
-        <a href="/" class="block">
+        <a href={homeHref} class="block" data-home-link>
           <img src="/logos/logo-light.png" alt="Alessandro Sena Logo" class="h-10 w-auto object-contain dark:hidden" />
           <img src="/logos/logo-dark.png" alt="Alessandro Sena Logo" class="h-10 w-auto object-contain hidden dark:block" />
         </a>
       </div>
       
       <nav class="hidden md:flex space-x-2 justify-self-center">
-        <a href="/" class="nav-link px-4 py-2 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/80 dark:hover:bg-slate-800/80 transition-all duration-200">Home</a>
-        <a href="/#progetti" class="nav-link px-4 py-2 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/80 dark:hover:bg-slate-800/80 transition-all duration-200">Progetti</a>
-        <a href="/#formazione" class="nav-link px-4 py-2 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/80 dark:hover:bg-slate-800/80 transition-all duration-200">Formazione</a>
-        <a href="/#certificazioni" class="nav-link px-4 py-2 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/80 dark:hover:bg-slate-800/80 transition-all duration-200">Certificazioni</a>
+        <a href={homeHref} data-home-link data-section="home" class="nav-link px-4 py-2 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/80 dark:hover:bg-slate-800/80 transition-all duration-200">{t('nav.home')}</a>
+        <a href={projectsHref} data-section="progetti" class="nav-link px-4 py-2 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/80 dark:hover:bg-slate-800/80 transition-all duration-200">{t('nav.projects')}</a>
+        <a href={educationHref} data-section="formazione" class="nav-link px-4 py-2 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/80 dark:hover:bg-slate-800/80 transition-all duration-200">{t('nav.education')}</a>
+        <a href={certificationsHref} data-section="certificazioni" class="nav-link px-4 py-2 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/80 dark:hover:bg-slate-800/80 transition-all duration-200">{t('nav.certifications')}</a>
       </nav>
       
-      <div class="flex items-center gap-4 justify-self-end">
+      <div class="flex items-center gap-2.5 justify-self-end">
         <!-- Theme Toggle Button -->
-        <button id="theme-toggle" type="button" class="text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none rounded-lg text-sm p-2.5 transition-colors" aria-label="Toggle Dark Mode">
-          <Icon id="theme-toggle-dark-icon" name="ph:moon-bold" class="hidden w-5 h-5" />
-          <Icon id="theme-toggle-light-icon" name="ph:sun-bold" class="hidden w-5 h-5" />
+        <button
+          id="theme-toggle"
+          type="button"
+          aria-label={t('nav.toggleTheme')}
+          class="inline-flex items-center justify-center h-9 w-9 rounded-lg bg-white/75 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-300/80 dark:border-slate-700/80 text-slate-700 dark:text-slate-200 shadow-sm hover:bg-blue-500/15 dark:hover:bg-blue-500/15 hover:border-blue-400/60 dark:hover:border-cyan-400/60 hover:text-blue-700 dark:hover:text-cyan-300 hover:shadow-[0_0_20px_-2px_rgba(59,130,246,0.28)] dark:hover:shadow-[0_0_22px_-2px_rgba(56,189,248,0.28)] hover:-translate-y-0.5 hover:scale-[1.03] active:scale-100 focus:outline-none transition-all duration-300 cursor-pointer"
+        >
+          <Icon id="theme-toggle-dark-icon" name="ph:moon-bold" class="hidden w-4 h-4" />
+          <Icon id="theme-toggle-light-icon" name="ph:sun-bold" class="hidden w-4 h-4" />
         </button>
+
+        <!-- Language Switcher -->
+        <a
+          href={alternateUrl}
+          aria-label={t('nav.switchLangLabel')}
+          title={t('nav.switchLangTitle')}
+          class="inline-flex items-center justify-center gap-1.5 h-9 px-3 rounded-lg bg-white/75 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-300/80 dark:border-slate-700/80 text-xs font-semibold tracking-wider text-slate-700 dark:text-slate-200 shadow-sm hover:bg-blue-500/15 dark:hover:bg-blue-500/15 hover:border-blue-400/60 dark:hover:border-cyan-400/60 hover:text-blue-700 dark:hover:text-cyan-300 hover:shadow-[0_0_20px_-2px_rgba(59,130,246,0.28)] dark:hover:shadow-[0_0_22px_-2px_rgba(56,189,248,0.28)] hover:-translate-y-0.5 hover:scale-[1.03] active:scale-100 transition-all duration-300"
+        >
+          <Icon name="ph:globe-bold" class="w-4 h-4" />
+          <span>{targetLangCode}</span>
+        </a>
         
         <div class="hidden md:flex">
-          <a href="/#contatti" class="inline-flex items-center justify-center rounded-lg bg-white/75 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-300/80 dark:border-slate-700/80 px-4 py-2 text-sm font-semibold text-slate-800 dark:text-slate-100 shadow-sm hover:bg-blue-500/15 dark:hover:bg-blue-500/15 hover:border-blue-400/60 dark:hover:border-cyan-400/60 hover:text-blue-700 dark:hover:text-cyan-300 hover:shadow-[0_0_20px_-2px_rgba(59,130,246,0.28)] dark:hover:shadow-[0_0_22px_-2px_rgba(56,189,248,0.28)] hover:-translate-y-0.5 hover:scale-[1.03] active:scale-100 transition-all duration-300">
-            Contatti
+          <a href={contactHref} class="inline-flex items-center justify-center h-9 px-4 rounded-lg bg-white/75 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-300/80 dark:border-slate-700/80 text-sm font-semibold text-slate-800 dark:text-slate-100 shadow-sm hover:bg-blue-500/15 dark:hover:bg-blue-500/15 hover:border-blue-400/60 dark:hover:border-cyan-400/60 hover:text-blue-700 dark:hover:text-cyan-300 hover:shadow-[0_0_20px_-2px_rgba(59,130,246,0.28)] dark:hover:shadow-[0_0_22px_-2px_rgba(56,189,248,0.28)] hover:-translate-y-0.5 hover:scale-[1.03] active:scale-100 transition-all duration-300">
+            {t('nav.contact')}
           </a>
         </div>
       </div>
@@ -77,7 +105,7 @@ import { Icon } from 'astro-icon/components';
 
   // Scroll Spy Logic
   const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-link');
+  const navLinks = document.querySelectorAll<HTMLAnchorElement>('.nav-link');
 
   function updateActiveSection() {
     let currentId = '';
@@ -86,7 +114,7 @@ import { Icon } from 'astro-icon/components';
       const sectionTop = section.getBoundingClientRect().top + window.scrollY;
       // Trigger slightly before reaching the exact top
       if (window.scrollY >= sectionTop - 250) {
-        currentId = section.getAttribute('id');
+        currentId = section.getAttribute('id') ?? '';
       }
     });
 
@@ -94,7 +122,7 @@ import { Icon } from 'astro-icon/components';
     if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50) {
         const lastSection = Array.from(sections).pop();
         if (lastSection) {
-            currentId = lastSection.getAttribute('id');
+            currentId = lastSection.getAttribute('id') ?? '';
         }
     }
 
@@ -104,8 +132,7 @@ import { Icon } from 'astro-icon/components';
       link.classList.add('text-slate-600', 'dark:text-slate-300');
       
       // Apply active classes
-      const href = link.getAttribute('href');
-      if (href === `/#${currentId}` || (currentId === 'home' && href === '/')) {
+      if (currentId && link.dataset.section === currentId) {
         link.classList.add('active', 'bg-gray-100/80', 'dark:bg-slate-800/80', 'text-blue-600', 'dark:text-blue-400');
         link.classList.remove('text-slate-600', 'dark:text-slate-300');
       }
@@ -118,13 +145,17 @@ import { Icon } from 'astro-icon/components';
   // Trigger on initial load
   updateActiveSection();
 
-  // Home link and Logo smooth scroll to top fix
-  document.querySelectorAll('a[href="/"]').forEach(link => {
+  // Home link and Logo smooth scroll to top fix (both / and /en/)
+  document.querySelectorAll<HTMLAnchorElement>('a[data-home-link]').forEach(link => {
     link.addEventListener('click', function(e) {
-      if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+      const currentPath = window.location.pathname.replace(/\/index\.html$/, '') || '/';
+      const targetHref = this.getAttribute('href') || '/';
+      const normalizedCurrent = currentPath.replace(/\/+$/, '') || '/';
+      const normalizedTarget = targetHref.replace(/\/+$/, '') || '/';
+      if (normalizedCurrent === normalizedTarget) {
         e.preventDefault();
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        history.pushState(null, '', this.getAttribute('href'));
+        history.pushState(null, '', targetHref);
       }
     });
   });

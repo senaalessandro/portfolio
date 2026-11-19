@@ -2,13 +2,19 @@
 import Layout from './Layout.astro';
 import Header from '../components/Header.astro';
 import { Icon } from 'astro-icon/components';
-import { projects } from '../data/projects';
+import { projects, type ProjectStatus } from '../data/projects';
+import { getLangFromUrl, getLocalizedPath, useTranslations } from '../i18n/utils';
+import type { UiKey } from '../i18n/ui';
 
 interface MarkdownHeading {
   depth: number;
   slug: string;
   text: string;
 }
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const backToProjectsHref = getLocalizedPath('/#progetti', lang);
 
 const { frontmatter, headings = [] } = Astro.props as {
   frontmatter: {
@@ -33,22 +39,35 @@ const nextProject = hasCircularNav
   ? projects[(currentIndex + 1) % projects.length]
   : null;
 
-const statusClasses: Record<string, string> = {
+const statusClasses: Record<ProjectStatus, string> = {
   "Completato": "bg-green-100/90 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800",
   "In corso": "bg-amber-100/90 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800",
   "Sospeso": "bg-red-100/90 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800"
 };
 
-const dotClasses: Record<string, string> = {
+const dotClasses: Record<ProjectStatus, string> = {
   "Completato": "bg-green-500",
   "In corso": "bg-amber-500",
   "Sospeso": "bg-red-500"
 };
 
+const statusNormalizationMap: Record<string, ProjectStatus> = {
+  "Completato": "Completato",
+  "Completed": "Completato",
+  "In corso": "In corso",
+  "In Progress": "In corso",
+  "Sospeso": "Sospeso",
+  "On Hold": "Sospeso"
+};
+
+const normalizedStatus = frontmatter.status ? statusNormalizationMap[frontmatter.status] : undefined;
 const badgeClass =
-  (frontmatter.status && statusClasses[frontmatter.status]) ||
+  (normalizedStatus && statusClasses[normalizedStatus]) ||
   "bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700";
-const dotClass = frontmatter.status ? dotClasses[frontmatter.status] : undefined;
+const dotClass = normalizedStatus ? dotClasses[normalizedStatus] : undefined;
+const statusLabel = frontmatter.status
+  ? (normalizedStatus ? t(`status.${normalizedStatus}` as UiKey) : frontmatter.status)
+  : undefined;
 ---
 
 <Layout title={`${frontmatter.title} | Alessandro Sena`}>
@@ -79,12 +98,12 @@ const dotClass = frontmatter.status ? dotClasses[frontmatter.status] : undefined
       <div class={hasFullDocs ? 'lg:grid lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-8 xl:grid-cols-[1fr_minmax(0,800px)_1fr] xl:gap-10 lg:items-start' : ''}>
         <!-- COLONNA 1: INDICE LATERALE STICKY A SINISTRA (solo se hasFullDocs === true) -->
         {hasFullDocs && (
-          <aside class="hidden lg:block sticky top-24 self-start lg:mt-[70px] reveal delay-100" aria-label="Indice dei contenuti">
+          <aside class="hidden lg:block sticky top-24 self-start lg:mt-[70px] reveal delay-100" aria-label={t('project.tocAria')}>
             <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">
-              In questa pagina
+              {t('project.onThisPage')}
             </h2>
 
-            <nav aria-label="Sezioni del progetto">
+            <nav aria-label={t('project.sectionsAria')}>
               <ul class="space-y-1 border-l border-slate-300/70 dark:border-slate-700/80">
                 {h2Headings.map((heading, index) => (
                   <li>
@@ -111,11 +130,11 @@ const dotClass = frontmatter.status ? dotClasses[frontmatter.status] : undefined
           <!-- PULSANTE "TORNA AI PROGETTI" -->
           <div class="mb-8">
             <a
-              href="/#progetti"
+              href={backToProjectsHref}
               class="group inline-flex items-center gap-2 rounded-lg bg-white/75 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-300/80 dark:border-slate-700/80 px-4 py-2 text-sm font-semibold text-slate-800 dark:text-slate-100 shadow-sm hover:bg-blue-500/15 dark:hover:bg-blue-500/15 hover:border-blue-400/60 dark:hover:border-cyan-400/60 hover:text-blue-700 dark:hover:text-cyan-300 hover:shadow-[0_0_20px_-2px_rgba(59,130,246,0.28)] dark:hover:shadow-[0_0_22px_-2px_rgba(56,189,248,0.28)] hover:-translate-y-0.5 transition-all duration-300"
             >
               <Icon name="ph:arrow-left-bold" class="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
-              Torna ai progetti
+              {t('project.backToProjects')}
             </a>
           </div>
           <div class="reveal">
@@ -134,10 +153,10 @@ const dotClass = frontmatter.status ? dotClasses[frontmatter.status] : undefined
                       {frontmatter.title}
                     </h1>
 
-                    {frontmatter.status && (
+                    {statusLabel && (
                       <span class={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-full border ${badgeClass} transition-colors`}>
                         {dotClass && <span class={`w-1.5 h-1.5 rounded-full ${dotClass}`}></span>}
-                        {frontmatter.status}
+                        {statusLabel}
                       </span>
                     )}
                   </div>
@@ -146,7 +165,7 @@ const dotClass = frontmatter.status ? dotClasses[frontmatter.status] : undefined
                     <div class="flex flex-wrap items-center gap-2">
                       {frontmatter.techs.map((tech) => {
                         const iconPath = typeof tech === 'string' ? tech : tech.icon;
-                        const altText = typeof tech === 'string' ? 'Tech logo' : tech.label || 'Tech logo';
+                        const altText = typeof tech === 'string' ? t('projects.techDefault') : tech.label || t('projects.techDefault');
                         return (
                           <div
                             class="p-1.5 rounded-lg bg-slate-50/90 border border-slate-200/80 dark:bg-slate-700/50 dark:border-slate-600/80 flex items-center justify-center transition-colors"
@@ -171,32 +190,32 @@ const dotClass = frontmatter.status ? dotClasses[frontmatter.status] : undefined
           <!-- NAVIGAZIONE PRECEDENTE / SUCCESSIVO -->
           {(prevProject || nextProject) && (
             <nav
-              aria-label="Navigazione progetti"
+              aria-label={t('project.navAria')}
               class="mt-8 pt-6 border-t border-slate-200/80 dark:border-slate-800/60 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 reveal"
             >
               {prevProject && (
                 <a
-                  href={`/progetti/${prevProject.slug}`}
-                  title={prevProject.title}
+                  href={getLocalizedPath(`/progetti/${prevProject.slug}`, lang)}
+                  title={prevProject.title[lang]}
                   class="group flex w-full sm:w-[270px] items-center justify-between gap-3 rounded-xl bg-white/75 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-300/80 dark:border-slate-700/80 px-5 py-3.5 text-slate-800 dark:text-slate-100 shadow-sm hover:bg-blue-500/15 dark:hover:bg-blue-500/15 hover:border-blue-400/60 dark:hover:border-cyan-400/60 hover:text-blue-700 dark:hover:text-cyan-300 hover:shadow-[0_0_20px_-2px_rgba(59,130,246,0.28)] dark:hover:shadow-[0_0_22px_-2px_rgba(56,189,248,0.28)] hover:-translate-y-0.5 transition-all duration-300"
                 >
                   <Icon name="ph:arrow-left-bold" class="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:-translate-x-1" />
                   <span class="flex min-w-0 flex-1 flex-col gap-1 text-left leading-snug">
-                    <span class="text-xs font-medium text-slate-500 dark:text-slate-400">Progetto Precedente</span>
-                    <span class="block truncate text-sm sm:text-base font-semibold">{prevProject.title}</span>
+                    <span class="text-xs font-medium text-slate-500 dark:text-slate-400">{t('project.prev')}</span>
+                    <span class="block truncate text-sm sm:text-base font-semibold">{prevProject.title[lang]}</span>
                   </span>
                 </a>
               )}
 
               {nextProject && (
                 <a
-                  href={`/progetti/${nextProject.slug}`}
-                  title={nextProject.title}
+                  href={getLocalizedPath(`/progetti/${nextProject.slug}`, lang)}
+                  title={nextProject.title[lang]}
                   class="group flex w-full sm:w-[270px] items-center justify-between gap-3 rounded-xl bg-white/75 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-300/80 dark:border-slate-700/80 px-5 py-3.5 text-slate-800 dark:text-slate-100 shadow-sm hover:bg-blue-500/15 dark:hover:bg-blue-500/15 hover:border-blue-400/60 dark:hover:border-cyan-400/60 hover:text-blue-700 dark:hover:text-cyan-300 hover:shadow-[0_0_20px_-2px_rgba(59,130,246,0.28)] dark:hover:shadow-[0_0_22px_-2px_rgba(56,189,248,0.28)] hover:-translate-y-0.5 transition-all duration-300 sm:ml-auto"
                 >
                   <span class="flex min-w-0 flex-1 flex-col gap-1 text-right leading-snug">
-                    <span class="text-xs font-medium text-slate-500 dark:text-slate-400">Progetto Successivo</span>
-                    <span class="block truncate text-sm sm:text-base font-semibold">{nextProject.title}</span>
+                    <span class="text-xs font-medium text-slate-500 dark:text-slate-400">{t('project.next')}</span>
+                    <span class="block truncate text-sm sm:text-base font-semibold">{nextProject.title[lang]}</span>
                   </span>
                   <Icon name="ph:arrow-right-bold" class="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1" />
                 </a>

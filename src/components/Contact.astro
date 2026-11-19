@@ -1,5 +1,9 @@
 ---
 import { Icon } from 'astro-icon/components';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <section id="contatti" class="relative py-20 bg-slate-900 dark:bg-slate-950 text-white transition-colors duration-300">
@@ -9,9 +13,9 @@ import { Icon } from 'astro-icon/components';
     class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500/35 dark:via-cyan-400/30 to-transparent"
   ></div>
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
-    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-6">Mettiamoci in Contatto</h2>
+    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl mb-6">{t('contact.title')}</h2>
     <p class="text-lg text-slate-300 dark:text-slate-400 mb-10 max-w-2xl mx-auto transition-colors">
-      Sei interessato al mio profilo? <br class="hidden sm:block"/> Sono disponibile per nuove opportunità e collaborazioni.
+      {t('contact.subtitleLine1')} <br class="hidden sm:block"/> {t('contact.subtitleLine2')}
     </p>
     
     <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
@@ -29,7 +33,7 @@ import { Icon } from 'astro-icon/components';
           target="_blank"
           rel="noopener noreferrer"
           class="group inline-flex items-center justify-center p-4 rounded-xl bg-white/5 dark:bg-slate-900/60 backdrop-blur-sm border border-slate-700/70 dark:border-slate-800 text-slate-300 hover:text-blue-400 hover:bg-blue-500/15 hover:border-blue-400/60 hover:-translate-y-1 hover:shadow-[0_0_20px_-2px_rgba(59,130,246,0.45)] transition-all duration-300"
-          aria-label="Profilo LinkedIn"
+          aria-label={t('contact.linkedinLabel')}
         >
           <Icon name="mdi:linkedin" class="h-7 w-7 transition-transform duration-300 group-hover:scale-110" />
         </a>
@@ -39,7 +43,7 @@ import { Icon } from 'astro-icon/components';
           target="_blank"
           rel="noopener noreferrer"
           class="group inline-flex items-center justify-center p-4 rounded-xl bg-white/5 dark:bg-slate-900/60 backdrop-blur-sm border border-slate-700/70 dark:border-slate-800 text-slate-300 hover:text-white hover:bg-white/10 hover:border-cyan-300/50 hover:-translate-y-1 hover:shadow-[0_0_20px_-2px_rgba(226,232,240,0.3)] dark:hover:shadow-[0_0_20px_-2px_rgba(103,232,249,0.3)] transition-all duration-300"
-          aria-label="Profilo GitHub"
+          aria-label={t('contact.githubLabel')}
         >
           <Icon name="mdi:github" class="h-7 w-7 transition-transform duration-300 group-hover:scale-110" />
         </a>
@@ -48,7 +52,6 @@ import { Icon } from 'astro-icon/components';
   </div>
   
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20 pt-8 border-t border-slate-800 dark:border-slate-800/50 text-center text-slate-400 dark:text-slate-500 text-sm transition-colors">
-    <p class="reveal delay-100">&copy; {new Date().getFullYear()} Alessandro Sena. Tutti i diritti riservati.</p>
+    <p class="reveal delay-100">&copy; {new Date().getFullYear()} Alessandro Sena. {t('footer.rights')}</p>
   </div>
 </section>
-
