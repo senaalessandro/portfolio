@@ -10,7 +10,7 @@ const revealDelays = ['', 'delay-100', 'delay-200'];
 <section id="certificazioni" class="relative isolate py-20">
   <!-- Ambient Glow -->
   <div aria-hidden="true" class="pointer-events-none select-none absolute inset-0 -z-10 flex items-end justify-center md:justify-end">
-    <div class="h-[380px] w-[600px] translate-x-12 md:translate-x-16 md:mr-[5%] mb-8 rounded-full bg-gradient-to-tl from-blue-300/10 via-indigo-200/8 to-transparent dark:from-blue-700/15 dark:via-indigo-500/12 dark:to-transparent blur-3xl"></div>
+    <div class="h-[380px] w-[600px] translate-x-12 md:translate-x-16 md:mr-[5%] mb-8 rounded-full bg-gradient-to-tl from-blue-500/12 via-cyan-400/10 to-transparent dark:from-blue-700/15 dark:via-indigo-500/12 dark:to-transparent blur-3xl"></div>
   </div>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16 reveal">
@@ -25,18 +25,18 @@ const revealDelays = ['', 'delay-100', 'delay-200'];
           href={cert.verifyUrl} 
           target="_blank" 
           rel="noopener noreferrer" 
-          class="group relative overflow-hidden flex flex-col w-full rounded-2xl bg-white/75 dark:bg-slate-800/55 backdrop-blur-sm border border-slate-300/80 dark:border-slate-700/80 shadow-sm p-8 hover:-translate-y-1 hover:bg-white/90 dark:hover:bg-slate-800/75 hover:border-blue-400/60 dark:hover:border-cyan-400/50 hover:shadow-lg hover:shadow-blue-500/10 dark:hover:shadow-cyan-500/15 transition-all duration-300 min-h-[320px]"
+          class="group relative overflow-hidden flex flex-col w-full rounded-2xl bg-white/80 dark:bg-slate-800/55 backdrop-blur-md border border-slate-300/90 dark:border-slate-700/80 shadow-sm p-8 hover:-translate-y-1 hover:bg-white/90 dark:hover:bg-slate-800/75 hover:border-blue-400/60 dark:hover:border-cyan-400/50 hover:shadow-lg hover:shadow-blue-500/10 dark:hover:shadow-cyan-500/15 transition-all duration-300 min-h-[320px]"
         >
           <!-- Top Highlight -->
           <div
             aria-hidden="true"
-            class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/20 dark:via-blue-400/35 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+            class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500/30 dark:via-blue-400/35 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300"
           ></div>
 
           <!-- Internal Hover Glow -->
           <div
             aria-hidden="true"
-            class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.06),transparent_65%)] dark:bg-[radial-gradient(circle_at_50%_0%,rgba(56,189,248,0.12),transparent_65%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.08),transparent_65%)] dark:bg-[radial-gradient(circle_at_50%_0%,rgba(56,189,248,0.12),transparent_65%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           ></div>
           <!-- Sfondo animato -->
           <div class="absolute top-0 right-0 p-4 opacity-15 dark:opacity-5 group-hover:opacity-25 dark:group-hover:opacity-10 transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-12 pointer-events-none">
@@ -55,9 +55,9 @@ const revealDelays = ['', 'delay-100', 'delay-200'];
           </div>
           
           <!-- Bottom: Dettagli -->
-          <div class="mt-6 pt-5 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between relative z-10 transition-colors">
+          <div class="mt-6 pt-5 border-t border-slate-200/80 dark:border-slate-700/60 flex items-center justify-between relative z-10 transition-colors">
             <div class="flex flex-col">
-              <span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1 transition-colors">{cert.vendor}</span>
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1 transition-colors">{cert.vendor}</span>
               <span class="text-sm font-medium text-slate-600 dark:text-slate-300 transition-colors">{cert.date}</span>
             </div>
             

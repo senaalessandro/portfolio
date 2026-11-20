@@ -35,20 +35,20 @@ const statusLabel = t(`status.${status}`);
 ---
 
 <div class="h-full flex flex-col">
-  <div class="group relative overflow-hidden flex flex-col flex-1 h-full rounded-2xl bg-white/75 dark:bg-slate-800/55 backdrop-blur-sm border border-slate-300/80 dark:border-slate-700/80 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white/90 dark:hover:bg-slate-800/75 hover:shadow-lg hover:shadow-blue-500/10 dark:hover:shadow-cyan-500/15 hover:border-blue-400/60 dark:hover:border-cyan-400/50 p-6">
+  <div class="group relative overflow-hidden flex flex-col flex-1 h-full rounded-2xl bg-white/80 dark:bg-slate-800/55 backdrop-blur-md border border-slate-300/90 dark:border-slate-700/80 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white/90 dark:hover:bg-slate-800/75 hover:shadow-lg hover:shadow-blue-500/10 dark:hover:shadow-cyan-500/15 hover:border-blue-400/60 dark:hover:border-cyan-400/50 p-6">
     <!-- Top Highlight (1px riflesso dall'alto) -->
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/20 dark:via-blue-400/35 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+      class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500/30 dark:via-blue-400/35 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300"
     ></div>
 
     <!-- Luce radiale interna in hover -->
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.06),transparent_65%)] dark:bg-[radial-gradient(circle_at_50%_0%,rgba(56,189,248,0.12),transparent_65%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+      class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.08),transparent_65%)] dark:bg-[radial-gradient(circle_at_50%_0%,rgba(56,189,248,0.12),transparent_65%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
     ></div>
     
-    <div class="relative z-10 border-b border-gray-200 dark:border-gray-700 pb-4 mb-4">
+    <div class="relative z-10 border-b border-slate-200/90 dark:border-slate-700 pb-4 mb-4">
       <div class="flex items-start justify-between mb-3 gap-2">
         <h3 class="text-xl font-semibold text-slate-900 dark:text-white transition-colors min-h-[3.5rem]">{title}</h3>
         <span class={`flex-shrink-0 inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-semibold border ${statusClasses[status]} transition-colors`}>
@@ -59,7 +59,7 @@ const statusLabel = t(`status.${status}`);
       
       <div class="flex flex-wrap gap-2">
         {techs.map((tech) => (
-          <div class="flex items-center gap-2 p-1.5 rounded-md bg-slate-50 border border-slate-200 dark:bg-slate-700/50 dark:border-slate-600 transition-colors" title={tech.label || t('projects.techDefault')}>
+          <div class="flex items-center gap-2 p-1.5 rounded-md bg-slate-50 border border-slate-200/90 dark:bg-slate-700/50 dark:border-slate-600 transition-colors" title={tech.label || t('projects.techDefault')}>
             <img src={tech.icon} class="h-5 w-auto object-contain" alt="" />
             {tech.label && <span class="text-xs font-medium text-slate-700 dark:text-slate-300 pr-1">{tech.label}</span>}
           </div>
@@ -74,7 +74,7 @@ const statusLabel = t(`status.${status}`);
     <div class="relative z-10 mt-auto">
       <a 
         href={projectHref} 
-        class="group/btn inline-flex w-full items-center justify-center rounded-lg bg-white/75 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-300/80 dark:border-slate-700/80 px-4 py-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100 shadow-sm hover:bg-blue-500/15 dark:hover:bg-blue-500/15 hover:border-blue-400/60 dark:hover:border-cyan-400/60 hover:text-blue-700 dark:hover:text-cyan-300 hover:shadow-[0_0_20px_-2px_rgba(59,130,246,0.28)] dark:hover:shadow-[0_0_22px_-2px_rgba(56,189,248,0.28)] transition-all duration-300"
+        class="group/btn inline-flex w-full items-center justify-center rounded-lg bg-white/80 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-300/90 dark:border-slate-700/80 px-4 py-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100 shadow-sm hover:bg-blue-500/15 dark:hover:bg-blue-500/15 hover:border-blue-400/60 dark:hover:border-cyan-400/60 hover:text-blue-700 dark:hover:text-cyan-300 hover:shadow-[0_0_20px_-2px_rgba(59,130,246,0.28)] dark:hover:shadow-[0_0_22px_-2px_rgba(56,189,248,0.28)] transition-all duration-300"
       >
         {t('projects.details')}
         <Icon name="ph:arrow-right-bold" class="ml-2 w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
